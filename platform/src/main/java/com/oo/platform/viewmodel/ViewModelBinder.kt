@@ -16,49 +16,27 @@ import androidx.lifecycle.ViewModelProviders
  */
 object ViewModelBinder {
 
-    fun <T : ViewModel> bind(
-        activity: FragmentActivity,
-        clazz: Class<T>
-    ): T {
+    fun <T : ViewModel> bind(activity: FragmentActivity, clazz: Class<T>): T {
         return bind(activity, clazz, null)
     }
 
-    fun <T : ViewModel> bind(
-        activity: FragmentActivity,
-        clazz: Class<T>,
-        factory: ViewModelProvider.Factory?
-    ): T {
+    fun <T : ViewModel> bind(activity: FragmentActivity, clazz: Class<T>, factory: ViewModelProvider.Factory?): T {
         return ViewModelProviders.of(activity, factory).get(clazz)
     }
 
-    fun <T : ViewModel> bind(
-        fragment: Fragment,
-        clazz: Class<T>
-    ): T {
+    fun <T : ViewModel> bind(fragment: Fragment, clazz: Class<T>): T {
         return bind(fragment, clazz, null)
     }
 
-    fun <T : ViewModel> bind(
-        fragment: Fragment, clazz:
-        Class<T>, factory:
-        ViewModelProvider.Factory?
-    ): T {
+    fun <T : ViewModel> bind(fragment: Fragment, clazz: Class<T>, factory: ViewModelProvider.Factory?): T {
         return ViewModelProviders.of(fragment, factory).get(clazz)
     }
 
-    fun <T : ViewModel> bind(
-        contextWrapper: ContextWrapper, clazz:
-        Class<T>, factory:
-        ViewModelProvider.Factory?
-    ): T {
+    fun <T : ViewModel> bind(contextWrapper: ContextWrapper, clazz: Class<T>, factory: ViewModelProvider.Factory?): T {
         return bind(contextWrapper.baseContext, clazz, factory)
     }
 
-    fun <T : ViewModel> bind(
-        context: Context, clazz:
-        Class<T>, factory:
-        ViewModelProvider.Factory?
-    ): T {
+    fun <T : ViewModel> bind(context: Context, clazz: Class<T>, factory: ViewModelProvider.Factory?): T {
         if (context is FragmentActivity) {
             return ViewModelProviders.of(context, factory).get(clazz)
         } else {
