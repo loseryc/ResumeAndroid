@@ -27,7 +27,7 @@ object RetrofitClient {
             .build()
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://172.25.168.140")
+            .baseUrl("http://172.25.168.203")
             .addConverterFactory(ProtoConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

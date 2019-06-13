@@ -1,10 +1,10 @@
 package com.oo.resume.param.header
 
 /**
- *  $author yangchao
- *  $email  cd.uestc.superyoung@gmail.com
- *  $date   2019-06-12 14:38
- *  $describe
+ *   yangchao
+ *    cd.uestc.superyoung@gmail.com
+ *     2019-06-11 13:36
+ *
  */
 interface HeaderConst {
     companion object {

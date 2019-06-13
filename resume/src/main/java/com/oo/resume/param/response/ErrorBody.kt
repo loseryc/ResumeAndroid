@@ -6,4 +6,4 @@ package com.oo.resume.param.response
  *     2019-06-07 11:24
  *
  */
-class ErrorBody constructor(val code: Int, val msg: String?)
+data class ErrorBody(val code: Int, val msg: String?)

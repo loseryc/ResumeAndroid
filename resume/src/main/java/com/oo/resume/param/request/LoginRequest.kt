@@ -7,6 +7,6 @@ package com.oo.resume.param.request
  *
  */
 data class LoginRequest constructor(
-    val phone: String?,
-    val password: String?
+        val phone: String?,
+        val password: String?
 )
