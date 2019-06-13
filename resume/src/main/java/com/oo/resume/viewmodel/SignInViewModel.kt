@@ -1,6 +1,5 @@
 package com.oo.resume.viewmodel
 
-import android.util.Log
 import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,10 +8,10 @@ import androidx.lifecycle.Transformations
 import com.oo.platform.repo.AbsentLiveData
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.viewmodel.BaseViewModel
-import com.oo.resume.bean.Account
-import com.oo.resume.bean.ResposeResult
+import com.oo.resume.net.ResposeResult
 import com.oo.resume.param.request.LoginRequest
 import com.oo.resume.param.request.RegistRequest
+import com.oo.resume.param.response.AccountDTO
 import com.oo.resume.repository.SessionRepo
 import com.oo.resume.repository.SignInRepo
 
@@ -31,26 +30,26 @@ class SignInViewModel : BaseViewModel() {
     private val registRequest = MutableLiveData<RegistRequest>()
 
     private val viewType = MutableLiveData<SignType>()
-    private val registResult: LiveData<ResposeResult<Account>>
-    private val loginResult: LiveData<ResposeResult<Account>>
+    private val registResult: LiveData<ResposeResult<AccountDTO>>
+    private val loginResult: LiveData<ResposeResult<AccountDTO>>
 
-    private val loginResultObserver: Observer<ResposeResult<Account>>
+    private val loginResultObserver: Observer<ResposeResult<AccountDTO>>
 
-    private val registResultObserver: Observer<ResposeResult<Account>>
+    private val registResultObserver: Observer<ResposeResult<AccountDTO>>
 
     init {
         viewType.value = SignType.Login
 
         loginResult = Transformations.switchMap(
             loginRequest,
-            Function<LoginRequest, LiveData<ResposeResult<Account>>> { request ->
+            Function<LoginRequest, LiveData<ResposeResult<AccountDTO>>> { request ->
                 if (request == null) return@Function AbsentLiveData.create()
                 signInRepo.login(request)
             })
 
         registResult = Transformations.switchMap(
             registRequest,
-            Function<RegistRequest, LiveData<ResposeResult<Account>>> { request ->
+            Function<RegistRequest, LiveData<ResposeResult<AccountDTO>>> { request ->
                 if (request == null) return@Function AbsentLiveData.create()
                 signInRepo.regist(request)
             })
@@ -68,7 +67,7 @@ class SignInViewModel : BaseViewModel() {
 
     }
 
-    private fun setSession(result: ResposeResult<Account>?) {
+    private fun setSession(result: ResposeResult<AccountDTO>?) {
         if (result == null || !result.isSuccess || result.data == null
             || result.data.session_key.isNullOrEmpty()
             || result.data.session_user.isNullOrEmpty()
@@ -86,11 +85,11 @@ class SignInViewModel : BaseViewModel() {
         return viewType
     }
 
-    fun getLoginResult(): LiveData<ResposeResult<Account>> {
+    fun getLoginResult(): LiveData<ResposeResult<AccountDTO>> {
         return loginResult
     }
 
-    fun getRegistResult(): LiveData<ResposeResult<Account>> {
+    fun getRegistResult(): LiveData<ResposeResult<AccountDTO>> {
         return registResult
     }
 

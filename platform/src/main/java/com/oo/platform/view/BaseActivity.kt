@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun isAllowRemoveBackgroundDrawable(): Boolean {
+    open fun isAllowRemoveBackgroundDrawable(): Boolean {
         return true
     }
 

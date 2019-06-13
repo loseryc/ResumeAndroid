@@ -11,6 +11,7 @@
             android:networkSecurityConfig="@xml/network_security_config"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
+            android:name=".ResumeApplication"
             android:theme="@style/AppTheme">
 
         <activity
@@ -25,12 +26,16 @@
         </activity>
 
         <activity
+                android:name=".activity.HomeActivity"
+                android:launchMode="singleTask"
+                android:screenOrientation="portrait"/>
+
+        <activity
                 android:name=".activity.SignInActivity"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait"/>
-        <activity
-                android:name=".activity.ResumeListActivity"
-                android:screenOrientation="portrait"/>
+
+
     </application>
 
 </manifest>

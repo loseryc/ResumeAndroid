@@ -7,27 +7,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.oo.platform.view.BaseActivity
+import com.oo.platform.view.BaseFragment
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
-import com.oo.resume.entity.Resume
+import com.oo.resume.param.response.ResumeDTO
 import com.oo.resume.viewmodel.ResumeListViewModel
-import kotlinx.android.synthetic.main.activity_resume_list.*
-import kotlinx.android.synthetic.main.item_resume_card.*
+import kotlinx.android.synthetic.main.fragment_resume_list.*
 import kotlinx.android.synthetic.main.item_resume_card.view.*
 
-class ResumeListActivity : BaseActivity() {
+class ResumeListFragment : BaseFragment() {
 
 
-    lateinit var viewmodel: ResumeListViewModel
-    lateinit var adapter: ResumeAdapter
+    private lateinit var viewmodel: ResumeListViewModel
+    private lateinit var adapter: ResumeAdapter
 
     override fun getContentViewResId(): Int {
-        return R.layout.activity_resume_list
+        return R.layout.fragment_resume_list
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
         bindViewModel()
         observe()
@@ -67,12 +66,12 @@ class ResumeListActivity : BaseActivity() {
 
     private fun showToast(content: String?) {
         if (content == null) return
-        Toast.makeText(this, content, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, content, Toast.LENGTH_SHORT).show()
     }
 
     inner class ResumeAdapter : RecyclerView.Adapter<ResumeCardHoler>() {
 
-        var reusmes: List<Resume>? = null
+        private var reusmes: List<ResumeDTO>? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResumeCardHoler {
             return ResumeCardHoler(
@@ -81,7 +80,7 @@ class ResumeListActivity : BaseActivity() {
             )
         }
 
-        fun setData(reusmes: List<Resume>?) {
+        fun setData(reusmes: List<ResumeDTO>?) {
             this.reusmes = reusmes
             notifyDataSetChanged()
         }
@@ -97,9 +96,9 @@ class ResumeListActivity : BaseActivity() {
     }
 
     inner class ResumeCardHoler(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindData(resume: Resume?) {
+        fun bindData(resume: ResumeDTO?) {
             if (resume == null) return
-            itemView.tv_name.text = resume.baseInfo.name
+            itemView.tv_name.text = resume.baseInfo?.name
             itemView.tv_company.text = resume.company?.name
         }
     }

@@ -20,7 +20,7 @@ class SignInActivity : BaseActivity() {
 
     private lateinit var loading: AlertDialog
 
-    lateinit var viewmodel: SignInViewModel
+    private lateinit var viewmodel: SignInViewModel
 
     override fun getContentViewResId(): Int {
         return R.layout.activity_sign_in
@@ -74,7 +74,7 @@ class SignInActivity : BaseActivity() {
             loading.dismiss()
             if (result.isSuccess) {
                 showToast("登录成功")
-                startActivity(Intent(this@SignInActivity, ResumeListActivity::class.java))
+                startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
                 finish()
             } else if (result.errors != null) {
                 showToast(result.errors.msg)
@@ -90,7 +90,7 @@ class SignInActivity : BaseActivity() {
             loading.dismiss()
             if (result.isSuccess) {
                 showToast("注册成功")
-                startActivity(Intent(this@SignInActivity, ResumeListActivity::class.java))
+                startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
                 finish()
             } else if (result.errors != null) {
                 showToast(result.errors.msg)

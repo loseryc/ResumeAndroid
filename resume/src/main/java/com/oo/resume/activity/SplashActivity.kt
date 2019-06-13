@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.view.BaseActivity
+import com.oo.resume.R
 import com.oo.resume.repository.SessionRepo
 import java.util.concurrent.TimeUnit
 
@@ -23,7 +24,7 @@ class SplashActivity : BaseActivity() {
             override fun onTick(millisUntilFinished: Long) {}
 
             override fun onFinish() {
-                val clazz = if (sessionRepo.isLogin()) ResumeListActivity::class.java else SignInActivity::class.java
+                val clazz = if (sessionRepo.isLogin()) HomeActivity::class.java else SignInActivity::class.java
                 startActivity(Intent(this@SplashActivity, clazz))
                 finish()
             }
@@ -39,6 +40,10 @@ class SplashActivity : BaseActivity() {
         return Color.rgb(207, 107, 71)
     }
 
+    override fun isAllowRemoveBackgroundDrawable(): Boolean {
+        return false
+    }
+
 
     override fun onDestroy() {
         timer?.cancel()
@@ -47,7 +52,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun getContentViewResId(): Int {
-        return 0
+        return R.layout.activity_splash
     }
 
 }

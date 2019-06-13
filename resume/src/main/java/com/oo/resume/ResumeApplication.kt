@@ -19,9 +19,4 @@ class ResumeApplication : MultiDexApplication() {
         INSTANCE = this
     }
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
-
 }

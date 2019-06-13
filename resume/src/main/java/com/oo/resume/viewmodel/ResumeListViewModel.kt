@@ -7,8 +7,8 @@ import com.oo.platform.repo.AbsentLiveData
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.viewmodel.BaseViewModel
 import com.oo.platform.viewmodel.SingleLiveEvent
-import com.oo.resume.bean.ResposeResult
-import com.oo.resume.entity.Resume
+import com.oo.resume.net.ResposeResult
+import com.oo.resume.param.response.ResumeDTO
 import com.oo.resume.repository.ResumeRepo
 
 /**
@@ -22,13 +22,13 @@ class ResumeListViewModel : BaseViewModel() {
     private val resumeRepo = RepositoryFactory.getRepository(ResumeRepo::class.java)
     private val refreshEvent = SingleLiveEvent<String>()
 
-    private val resumeList: LiveData<ResposeResult<List<Resume>>>
+    private val resumeList: LiveData<ResposeResult<List<ResumeDTO>>>
 
     init {
 
         resumeList = Transformations.switchMap(
             refreshEvent,
-            Function<String, LiveData<ResposeResult<List<Resume>>>> { request ->
+            Function<String, LiveData<ResposeResult<List<ResumeDTO>>>> { request ->
                 if (request == null) return@Function AbsentLiveData.create()
                 resumeRepo.getResumeList()
             })
@@ -40,7 +40,7 @@ class ResumeListViewModel : BaseViewModel() {
         refreshEvent.value = ""
     }
 
-    fun getResumeList():LiveData<ResposeResult<List<Resume>>>{
+    fun getResumeList():LiveData<ResposeResult<List<ResumeDTO>>>{
         return resumeList
     }
 

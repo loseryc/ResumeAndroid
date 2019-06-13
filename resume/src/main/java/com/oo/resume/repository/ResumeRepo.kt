@@ -3,11 +3,11 @@ package com.oo.resume.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.oo.platform.repo.IRepository
-import com.oo.resume.bean.ResposeResult
-import com.oo.resume.entity.Resume
+import com.oo.resume.net.ResposeResult
 import com.oo.resume.net.BaseObserver
 import com.oo.resume.net.RetrofitClient
 import com.oo.resume.param.response.ErrorBody
+import com.oo.resume.param.response.ResumeDTO
 import com.oo.resume.service.ResumeService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,8 +21,8 @@ import io.reactivex.schedulers.Schedulers
 class ResumeRepo : IRepository {
 
 
-    fun getResumeList(): LiveData<ResposeResult<List<Resume>>> {
-        val observable = MutableLiveData<ResposeResult<List<Resume>>>()
+    fun getResumeList(): LiveData<ResposeResult<List<ResumeDTO>>> {
+        val observable = MutableLiveData<ResposeResult<List<ResumeDTO>>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
             .get()
@@ -30,9 +30,9 @@ class ResumeRepo : IRepository {
             .getResumeList()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BaseObserver<List<Resume>>() {
+            .subscribe(object : BaseObserver<List<ResumeDTO>>() {
 
-                override fun onNext(it: List<Resume>) {
+                override fun onNext(it: List<ResumeDTO>) {
                     observable.postValue(ResposeResult.success(it))
                 }
 

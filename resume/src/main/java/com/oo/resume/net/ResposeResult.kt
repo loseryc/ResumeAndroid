@@ -1,4 +1,4 @@
-package com.oo.resume.bean
+package com.oo.resume.net
 
 import com.oo.platform.repo.BaseResult
 import com.oo.platform.repo.StatusValue
