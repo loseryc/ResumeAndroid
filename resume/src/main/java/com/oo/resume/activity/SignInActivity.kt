@@ -1,11 +1,12 @@
 package com.oo.resume.activity
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.chenenyu.router.Router
+import com.chenenyu.router.annotation.Route
 import com.oo.platform.view.BaseActivity
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
@@ -16,6 +17,7 @@ import com.oo.resume.viewmodel.SignInViewModel
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import java.util.regex.Pattern
 
+@Route(RouteUrl.SIGNIN_PAGE)
 class SignInActivity : BaseActivity() {
 
     private lateinit var loading: AlertDialog
@@ -74,7 +76,7 @@ class SignInActivity : BaseActivity() {
             loading.dismiss()
             if (result.isSuccess) {
                 showToast("登录成功")
-                startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+                Router.build(RouteUrl.HOME_PAGE).go(this)
                 finish()
             } else if (result.errors != null) {
                 showToast(result.errors.msg)
@@ -90,7 +92,7 @@ class SignInActivity : BaseActivity() {
             loading.dismiss()
             if (result.isSuccess) {
                 showToast("注册成功")
-                startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+                Router.build(RouteUrl.SIGNIN_PAGE).go(this)
                 finish()
             } else if (result.errors != null) {
                 showToast(result.errors.msg)

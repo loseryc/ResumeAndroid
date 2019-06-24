@@ -4,6 +4,13 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.chenenyu.router'
+
+ext {
+    routerVersion = '1.6.3'
+    compilerVersion = '1.6.4'
+}
+
 configurations {
     all*.exclude group: 'com.google.guava', module: 'listenablefuture'
 }
@@ -46,6 +53,7 @@ dependencies {
     implementation dep.gson
     implementation dep.v7
     implementation dep.recyclerview
+    implementation dep.fresco
     implementation dep.design
     implementation project(path: ':platform')
 }

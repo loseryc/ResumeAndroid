@@ -1,9 +1,9 @@
 package com.oo.resume.activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
+import com.chenenyu.router.Router
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.view.BaseActivity
 import com.oo.resume.R
@@ -20,15 +20,16 @@ class SplashActivity : BaseActivity() {
 
     val sessionRepo = RepositoryFactory.getRepository(SessionRepo::class.java)
     private var timer: CountDownTimer? =
-        object : CountDownTimer(TimeUnit.SECONDS.toMillis(3), TimeUnit.SECONDS.toMillis(1)) {
+        object : CountDownTimer(TimeUnit.SECONDS.toMillis(2), TimeUnit.SECONDS.toMillis(1)) {
             override fun onTick(millisUntilFinished: Long) {}
 
             override fun onFinish() {
-                val clazz = if (sessionRepo.isLogin()) HomeActivity::class.java else SignInActivity::class.java
-                startActivity(Intent(this@SplashActivity, clazz))
+                Router.build(
+                    if (sessionRepo.isLogin()) RouteUrl.HOME_PAGE
+                    else RouteUrl.SIGNIN_PAGE
+                ).go(this@SplashActivity)
                 finish()
             }
-
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {

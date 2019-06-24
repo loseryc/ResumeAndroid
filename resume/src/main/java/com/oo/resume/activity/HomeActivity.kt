@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.chenenyu.router.annotation.Route
 import com.oo.platform.view.BaseActivity
 import com.oo.resume.R
 import kotlinx.android.synthetic.main.activity_home.*
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_home.*
  *  $date   2019-06-13 17:21
  *  $describe
  */
+@Route(RouteUrl.HOME_PAGE)
 class HomeActivity : BaseActivity() {
 
 
@@ -26,11 +28,6 @@ class HomeActivity : BaseActivity() {
         pager.adapter = HomeFragmetPageAdapter(supportFragmentManager)
         tabs.setupWithViewPager(pager)
         Page.values().forEachIndexed { index, page -> tabs.getTabAt(index)?.text = page.title }
-    }
-
-
-    override fun getContentViewResId(): Int {
-        return R.layout.activity_home
     }
 
     inner class HomeFragmetPageAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
@@ -57,6 +54,10 @@ class HomeActivity : BaseActivity() {
                 return Page.values().find { it.index == index }
             }
         }
+    }
+
+    override fun getContentViewResId(): Int {
+        return R.layout.activity_home
     }
 
 }

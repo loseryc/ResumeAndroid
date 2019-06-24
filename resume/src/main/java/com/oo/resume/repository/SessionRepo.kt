@@ -66,12 +66,12 @@ class SessionRepo : IRepository {
     }
 
     fun getSessionKey(): LiveData<String> {
-        return sessionUser
+        return sessionKey
     }
 
     fun setSession(sessionUser: String?, sessionKey: String?) {
-        this.sessionKey.value = sessionKey
-        this.sessionUser.value = sessionUser
+        this.sessionKey.postValue(sessionKey)
+        this.sessionUser.postValue(sessionUser)
         storeSession(sessionUser, sessionKey)
     }
 

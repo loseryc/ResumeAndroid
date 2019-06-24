@@ -24,10 +24,11 @@ object RetrofitClient {
     private fun createRetrofitInstance(): Retrofit.Builder {
         val client = OkHttpClient().newBuilder()
             .addInterceptor(SessionInterceptor())
+            .addInterceptor(ResponseInterceptor())
             .build()
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://172.25.168.203")
+            .baseUrl("http://172.25.165.242")
             .addConverterFactory(ProtoConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

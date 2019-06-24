@@ -2,6 +2,8 @@ package com.oo.resume
 
 import android.app.Application
 import androidx.multidex.MultiDexApplication
+import com.chenenyu.router.Router
+import com.oo.resume.activity.RouteSessionInterceptor
 
 /**
  *  $author yangchao
@@ -17,6 +19,15 @@ class ResumeApplication : MultiDexApplication() {
 
     init {
         INSTANCE = this
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        initRouter()
+    }
+
+    private fun initRouter() {
+        Router.addGlobalInterceptor(RouteSessionInterceptor())
     }
 
 }
