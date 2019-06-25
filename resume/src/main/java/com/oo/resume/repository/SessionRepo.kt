@@ -27,13 +27,13 @@ class SessionRepo : IRepository {
     }
 
     private fun restoreSession() {
-        val sp = SpUtil.get(SP_NAME, Context.MODE_PRIVATE)
+        val sp = SpUtil.get(SESSION_SP_NAME, Context.MODE_PRIVATE)
         if (sp == null) return
         setSession(sp.getString(SP_KEY_SESSION_USER, null), sp.getString(SP_KEY_SESSION_KEY, null))
     }
 
     private fun storeSession(sessionUser: String?, sessionKey: String?) {
-        val sp = SpUtil.get(SP_NAME, Context.MODE_PRIVATE)
+        val sp = SpUtil.get(SESSION_SP_NAME, Context.MODE_PRIVATE)
         if (sp == null) return
         val editor = sp.edit()
         editor.putString(SP_KEY_SESSION_USER, sessionUser)
@@ -52,7 +52,7 @@ class SessionRepo : IRepository {
     }
 
     companion object {
-        const val SP_NAME = "session"
+        const val SESSION_SP_NAME = "session"
         const val SP_KEY_SESSION_USER = "session-user"
         const val SP_KEY_SESSION_KEY = "session-key"
     }

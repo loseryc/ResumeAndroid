@@ -25,10 +25,14 @@ class ResumeListFragment : BaseFragment() {
         return R.layout.fragment_resume_list
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewmodel = ViewModelBinder.bind(this, ResumeListViewModel::class.java)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        bindViewModel()
         observe()
         setListener()
     }
@@ -36,10 +40,6 @@ class ResumeListFragment : BaseFragment() {
     private fun initView() {
         adapter = ResumeAdapter()
         rv_resume.adapter = adapter
-    }
-
-    private fun bindViewModel() {
-        viewmodel = ViewModelBinder.bind(this, ResumeListViewModel::class.java)
     }
 
     private fun observe() {

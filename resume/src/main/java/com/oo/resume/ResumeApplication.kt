@@ -3,6 +3,7 @@ package com.oo.resume
 import android.app.Application
 import androidx.multidex.MultiDexApplication
 import com.chenenyu.router.Router
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.oo.resume.activity.RouteSessionInterceptor
 
 /**
@@ -23,11 +24,9 @@ class ResumeApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        initRouter()
-    }
-
-    private fun initRouter() {
+        Fresco.initialize(this)
         Router.addGlobalInterceptor(RouteSessionInterceptor())
     }
+
 
 }
