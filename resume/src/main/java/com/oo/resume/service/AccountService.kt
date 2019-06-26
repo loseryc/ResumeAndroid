@@ -9,7 +9,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
-interface AccountService {
+interface AccountService{
 
     @POST(UrlConst.ACCOUNT_PREFIX + UrlConst.ACCOUNT_REGIST)
     fun regist(@Body params: RegistRequest): Observable<AccountDTO>

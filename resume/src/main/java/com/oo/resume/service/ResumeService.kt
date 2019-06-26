@@ -1,6 +1,5 @@
 package com.oo.resume.service
 
-import com.oo.resume.net.RetrofitClient
 import com.oo.resume.param.path.UrlConst
 import com.oo.resume.param.response.ResumeDTO
 import io.reactivex.Observable

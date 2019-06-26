@@ -3,8 +3,8 @@ package com.oo.resume.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.oo.platform.repo.IRepository
-import com.oo.resume.net.ResposeResult
 import com.oo.resume.net.BaseObserver
+import com.oo.resume.net.ResposeResult
 import com.oo.resume.net.RetrofitClient
 import com.oo.resume.param.response.ErrorBody
 import com.oo.resume.param.response.ResumeDTO
@@ -25,8 +25,7 @@ class ResumeRepo : IRepository {
         val observable = MutableLiveData<ResposeResult<List<ResumeDTO>>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .get()
-            .create(ResumeService::class.java)
+            .getService(ResumeService::class.java)
             .getResumeList()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

@@ -58,8 +58,7 @@ class AccountRepo : IRepository {
         val observable = MutableLiveData<ResposeResult<AccountDTO>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .get()
-            .create(AccountService::class.java)
+            .getService(AccountService::class.java)
             .login(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -82,8 +81,7 @@ class AccountRepo : IRepository {
         val observable = MutableLiveData<ResposeResult<AccountDTO>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .get()
-            .create(AccountService::class.java)
+            .getService(AccountService::class.java)
             .update(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -106,8 +104,7 @@ class AccountRepo : IRepository {
         val observable = MutableLiveData<ResposeResult<AccountDTO>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .get()
-            .create(AccountService::class.java)
+            .getService(AccountService::class.java)
             .regist(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
