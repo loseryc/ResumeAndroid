@@ -4,7 +4,6 @@ import android.util.ArrayMap
 import com.oo.resume.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 
@@ -33,7 +32,7 @@ object RetrofitClient {
             .baseUrl(BuildConfig.API_HOST)
             .addConverterFactory(ProtoConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2AsyncAutoMainCallAdapterFactory.create())
     }
 
     private val mServicePools = ArrayMap<Class<*>, Any>()

@@ -9,8 +9,6 @@ import com.oo.resume.net.RetrofitClient
 import com.oo.resume.param.response.ErrorBody
 import com.oo.resume.param.response.ResumeDTO
 import com.oo.resume.service.ResumeService
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 /**
  *  $author yangchao
@@ -20,27 +18,25 @@ import io.reactivex.schedulers.Schedulers
  */
 class ResumeRepo : IRepository {
 
-
     fun getResumeList(): LiveData<ResposeResult<List<ResumeDTO>>> {
         val observable = MutableLiveData<ResposeResult<List<ResumeDTO>>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .getService(ResumeService::class.java)
-            .getResumeList()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BaseObserver<List<ResumeDTO>>() {
+                .getService(ResumeService::class.java)
+                .getResumeList()
 
-                override fun onNext(it: List<ResumeDTO>) {
-                    observable.postValue(ResposeResult.success(it))
-                }
+                .subscribe(object : BaseObserver<List<ResumeDTO>>() {
+
+                    override fun onNext(it: List<ResumeDTO>) {
+                        observable.postValue(ResposeResult.success(it))
+                    }
 
 
-                override fun onApiError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
+                    override fun onApiError(errors: ErrorBody?) {
+                        observable.postValue(ResposeResult.failure(errors))
+                    }
 
-            })
+                })
         return observable
     }
 

@@ -15,8 +15,6 @@ import com.oo.resume.param.response.AccountDTO
 import com.oo.resume.param.response.ErrorBody
 import com.oo.resume.service.AccountService
 import com.oo.resume.util.SpUtil
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 /**
  *  $author yangchao
@@ -47,8 +45,7 @@ class AccountRepo : IRepository {
     }
 
     private fun restoreAccount() {
-        val sp = SpUtil.get(ACCOUNT_SP_NAME, Context.MODE_PRIVATE)
-        if (sp == null) return
+        val sp = SpUtil.get(ACCOUNT_SP_NAME, Context.MODE_PRIVATE) ?: return
         val accountJson = sp.getString(KEY_ACCOUNT_INFO, "")
         if (accountJson.isNullOrEmpty()) return
         this.account.postValue(Gson().fromJson(accountJson, AccountDTO::class.java))
@@ -58,45 +55,41 @@ class AccountRepo : IRepository {
         val observable = MutableLiveData<ResposeResult<AccountDTO>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .getService(AccountService::class.java)
-            .login(request)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BaseObserver<AccountDTO>() {
+                .getService(AccountService::class.java)
+                .login(request)
+                .subscribe(object : BaseObserver<AccountDTO>() {
 
-                override fun onNext(it: AccountDTO) {
-                    storeAccount(it)
-                    observable.postValue(ResposeResult.success(it))
-                }
+                    override fun onNext(it: AccountDTO) {
+                        storeAccount(it)
+                        observable.postValue(ResposeResult.success(it))
+                    }
 
-                override fun onApiError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
+                    override fun onApiError(errors: ErrorBody?) {
+                        observable.postValue(ResposeResult.failure(errors))
+                    }
 
-            })
+                })
         return observable
     }
 
     fun update(request: AccountDTO): LiveData<ResposeResult<AccountDTO>> {
         val observable = MutableLiveData<ResposeResult<AccountDTO>>()
-        observable.setValue(ResposeResult.loading(null))
+        observable.value = ResposeResult.loading(null)
         RetrofitClient
-            .getService(AccountService::class.java)
-            .update(request)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BaseObserver<AccountDTO>() {
+                .getService(AccountService::class.java)
+                .update(request)
+                .subscribe(object : BaseObserver<AccountDTO>() {
 
-                override fun onNext(it: AccountDTO) {
-                    storeAccount(it)
-                    observable.postValue(ResposeResult.success(it))
-                }
+                    override fun onNext(it: AccountDTO) {
+                        storeAccount(it)
+                        observable.postValue(ResposeResult.success(it))
+                    }
 
-                override fun onApiError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
+                    override fun onApiError(errors: ErrorBody?) {
+                        observable.postValue(ResposeResult.failure(errors))
+                    }
 
-            })
+                })
         return observable
     }
 
@@ -104,22 +97,20 @@ class AccountRepo : IRepository {
         val observable = MutableLiveData<ResposeResult<AccountDTO>>()
         observable.setValue(ResposeResult.loading(null))
         RetrofitClient
-            .getService(AccountService::class.java)
-            .regist(request)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BaseObserver<AccountDTO>() {
+                .getService(AccountService::class.java)
+                .regist(request)
+                .subscribe(object : BaseObserver<AccountDTO>() {
 
-                override fun onNext(it: AccountDTO) {
-                    storeAccount(it)
-                    observable.postValue(ResposeResult.success(it))
-                }
+                    override fun onNext(it: AccountDTO) {
+                        storeAccount(it)
+                        observable.postValue(ResposeResult.success(it))
+                    }
 
-                override fun onApiError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
+                    override fun onApiError(errors: ErrorBody?) {
+                        observable.postValue(ResposeResult.failure(errors))
+                    }
 
-            })
+                })
         return observable
     }
 
