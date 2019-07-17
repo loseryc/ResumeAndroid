@@ -20,14 +20,13 @@ class RxJava2AsyncAutoMainCallAdapterFactory private constructor() : CallAdapter
         }
     }
 
-
+    @Suppress("UNCHECKED_CAST")
     override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         val callAdapter = mFactory.get(returnType, annotations, retrofit)
 
         if (null == callAdapter) {
             return null
         }
-
         when (getRawType(returnType)) {
             Flowable::class.java -> return FlowableCallAdapter(callAdapter as CallAdapter<Flowable<*>, Flowable<*>>)
             Observable::class.java -> return ObservableCallAdapter(callAdapter as CallAdapter<Observable<*>, Observable<*>>)
