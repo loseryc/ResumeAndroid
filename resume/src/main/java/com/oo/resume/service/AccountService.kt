@@ -1,6 +1,6 @@
 package com.oo.resume.service
 
-import com.oo.resume.param.path.UrlConst
+import com.oo.resume.data.path.UrlConst
 import com.oo.resume.param.request.LoginRequest
 import com.oo.resume.param.request.RegistRequest
 import com.oo.resume.param.response.AccountDTO
@@ -9,7 +9,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
-interface AccountService{
+interface AccountService {
 
     @POST(UrlConst.ACCOUNT_PREFIX + UrlConst.ACCOUNT_REGIST)
     fun regist(@Body params: RegistRequest): Observable<AccountDTO>
