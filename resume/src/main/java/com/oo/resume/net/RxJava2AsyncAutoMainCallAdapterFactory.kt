@@ -14,8 +14,8 @@ class RxJava2AsyncAutoMainCallAdapterFactory private constructor() : CallAdapter
 
     private var mFactory: RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
 
-    companion object{
-        fun create():RxJava2AsyncAutoMainCallAdapterFactory{
+    companion object {
+        fun create(): RxJava2AsyncAutoMainCallAdapterFactory {
             return RxJava2AsyncAutoMainCallAdapterFactory()
         }
     }
@@ -23,27 +23,21 @@ class RxJava2AsyncAutoMainCallAdapterFactory private constructor() : CallAdapter
 
     override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         val callAdapter = mFactory.get(returnType, annotations, retrofit)
-        val rawType = getRawType(returnType)
-
-        val isFlowable = rawType == Flowable::class.java
-        val isObservable = rawType == Observable::class.java
 
         if (null == callAdapter) {
             return null
         }
 
-        if (isObservable) {
-            return ObservableCallAdapter(callAdapter as CallAdapter<Observable<*>, Observable<*>>)
-        }
-
-        if (isFlowable) {
-            return FlowableCallAdapter(callAdapter as CallAdapter<Flowable<*>, Flowable<*>>)
+        when (getRawType(returnType)) {
+            Flowable::class.java -> return FlowableCallAdapter(callAdapter as CallAdapter<Flowable<*>, Flowable<*>>)
+            Observable::class.java -> return ObservableCallAdapter(callAdapter as CallAdapter<Observable<*>, Observable<*>>)
         }
 
         return callAdapter
     }
 
-    private inner class ObservableCallAdapter internal constructor(private val mAdapter: CallAdapter<Observable<*>, Observable<*>>) : CallAdapter<Observable<*>, Observable<*>> {
+    private inner class ObservableCallAdapter internal constructor(private val mAdapter: CallAdapter<Observable<*>, Observable<*>>) :
+        CallAdapter<Observable<*>, Observable<*>> {
         override fun responseType(): Type {
             return mAdapter.responseType()
         }
@@ -53,7 +47,8 @@ class RxJava2AsyncAutoMainCallAdapterFactory private constructor() : CallAdapter
         }
     }
 
-    private inner class FlowableCallAdapter internal constructor(private val mAdapter: CallAdapter<Flowable<*>, Flowable<*>>) : CallAdapter<Flowable<*>, Flowable<*>> {
+    private inner class FlowableCallAdapter internal constructor(private val mAdapter: CallAdapter<Flowable<*>, Flowable<*>>) :
+        CallAdapter<Flowable<*>, Flowable<*>> {
         override fun responseType(): Type {
             return mAdapter.responseType()
         }
