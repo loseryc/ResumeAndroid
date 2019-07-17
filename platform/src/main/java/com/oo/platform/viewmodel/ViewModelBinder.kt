@@ -32,9 +32,18 @@ object ViewModelBinder {
         return ViewModelProviders.of(fragment, factory).get(clazz)
     }
 
+    fun <T : ViewModel> bind(contextWrapper: ContextWrapper, clazz: Class<T>): T {
+        return bind(contextWrapper.baseContext, clazz, null)
+    }
+
     fun <T : ViewModel> bind(contextWrapper: ContextWrapper, clazz: Class<T>, factory: ViewModelProvider.Factory?): T {
         return bind(contextWrapper.baseContext, clazz, factory)
     }
+
+    fun <T : ViewModel> bind(context: Context, clazz: Class<T>): T {
+        return ViewModelBinder.bind(context, clazz, null)
+    }
+
 
     fun <T : ViewModel> bind(context: Context, clazz: Class<T>, factory: ViewModelProvider.Factory?): T {
         if (context is FragmentActivity) {

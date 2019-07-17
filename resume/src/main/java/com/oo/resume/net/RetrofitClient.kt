@@ -1,6 +1,7 @@
 package com.oo.resume.net
 
 import android.util.ArrayMap
+import com.oo.resume.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -29,7 +30,7 @@ object RetrofitClient {
             .build()
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://172.25.165.242")
+            .baseUrl(BuildConfig.API_HOST)
             .addConverterFactory(ProtoConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

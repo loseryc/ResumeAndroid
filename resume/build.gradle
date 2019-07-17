@@ -31,14 +31,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions 'API_ENV'
+    productFlavors {
+        PRO {
+            dimension = 'API_ENV'
+            buildConfigField('String','API_HOST','"http://134.175.147.149"')
+        }
+        DEV {
+            dimension = 'API_ENV'
+            buildConfigField('String','API_HOST','"http://172.25.165.242"')
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
-
 
 
 dependencies {
     def dep = rootProject.ext.dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'

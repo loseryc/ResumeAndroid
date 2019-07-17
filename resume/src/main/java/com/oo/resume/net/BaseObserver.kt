@@ -27,7 +27,7 @@ abstract class BaseObserver<T> : DisposableObserver<T>() {
         if (throwable is HttpException) {
             try {
                 val response = throwable.response()
-                val body = response.errorBody()
+                val body = response?.errorBody()
                 if (body == null) {
                     return null
                 }

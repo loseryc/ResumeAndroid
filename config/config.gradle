@@ -8,18 +8,18 @@ ext {
     ]
 
     versions = [
-            support_lib: '1.0.0',
-            arch_lib   : '2.0.0',
-            rxjava     : "2.2.2",
-            rxAndroid  : "2.1.0",
-            retrofit2  : "2.5.0",
-            okhttp     : "3.12.3",
+            support_lib: '1.1.0-beta01',
+            arch_lib   : '2.2.0-alpha01',
+            rxjava     : '2.2.10',
+            rxAndroid  : '2.1.1',
+            retrofit2  : '2.6.0',
+            okhttp     : '4.0.0',
             gson       : "2.8.5",
             leancloud  : "v4.7.3",
             greendao   : "3.2.2",
-            fresco     : "1.13.0",
+            fresco     : '2.0.0',
             exoplayer  : "2.7.1",
-            constraint : '1.1.3',
+            constraint : '2.0.0-beta2',
             // monitor
             stetho     : "1.5.0",
             blockcanary: "1.5.0",

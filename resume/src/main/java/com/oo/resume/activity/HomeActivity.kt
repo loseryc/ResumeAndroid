@@ -30,7 +30,7 @@ class HomeActivity : BaseActivity() {
         Page.values().forEachIndexed { index, page -> tabs.getTabAt(index)?.text = page.title }
     }
 
-    inner class HomeFragmetPageAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+    inner class HomeFragmetPageAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
             when (Page.getPage(position)) {
                 Page.ResumeList -> return ResumeListFragment()

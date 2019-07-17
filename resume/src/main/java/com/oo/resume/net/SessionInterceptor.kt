@@ -23,7 +23,7 @@ class SessionInterceptor : Interceptor {
         val original = chain.request()
         if (TextUtils.isEmpty(sessionKey) || TextUtils.isEmpty(sessionUser)) return chain.proceed(original)
 
-        val request = original.newBuilder().method(original.method(), original.body()).headers(original.headers())
+        val request = original.newBuilder().method(original.method, original.body).headers(original.headers)
         try {
             request.addHeader(HeaderConst.SESSION_USER, sessionUser!!)
             request.addHeader(HeaderConst.SESSION_KEY, sessionKey!!)

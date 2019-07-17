@@ -20,7 +20,7 @@ class ResponseInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val result = chain.proceed(chain.request())
-        if (result.code() == 401) {//未登录
+        if (result.code == 401) {//未登录
             sessionRepo.setSession(null, null)
             Router.build(RouteUrl.SIGNIN_PAGE).go(ResumeApplication.INSTANCE)
         }
