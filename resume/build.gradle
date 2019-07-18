@@ -70,4 +70,5 @@ dependencies {
     implementation dep.fresco
     implementation dep.design
     implementation project(path: ':platform')
+    implementation project(path: ':data')
 }
