@@ -8,7 +8,7 @@ import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.viewmodel.BaseViewModel
 import com.oo.platform.viewmodel.SingleLiveEvent
 import com.oo.resume.net.ResposeResult
-import com.oo.resume.param.response.ResumeDTO
+import com.oo.resume.data.response.ResumeDTO
 import com.oo.resume.repository.ResumeRepo
 
 /**

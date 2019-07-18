@@ -1,9 +1,9 @@
 package com.oo.resume.service
 
 import com.oo.resume.data.path.UrlConst
-import com.oo.resume.param.request.LoginRequest
-import com.oo.resume.param.request.RegistRequest
-import com.oo.resume.param.response.AccountDTO
+import com.oo.resume.data.request.LoginRequest
+import com.oo.resume.data.request.RegistRequest
+import com.oo.resume.data.response.AccountDTO
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.POST

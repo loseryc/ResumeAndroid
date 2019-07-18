@@ -1,4 +1,4 @@
-package com.oo.resume.param.response
+package com.oo.resume.data.response
 
 /**
  *   yangchao
@@ -7,6 +7,8 @@ package com.oo.resume.param.response
  *
  */
 class AccountDTO {
+    var id: Long = 0
+
     var phone: String? = null//电话
 
     var name: String? = null//名字

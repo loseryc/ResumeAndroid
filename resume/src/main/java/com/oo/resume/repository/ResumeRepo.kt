@@ -6,8 +6,8 @@ import com.oo.platform.repo.IRepository
 import com.oo.resume.net.BaseObserver
 import com.oo.resume.net.ResposeResult
 import com.oo.resume.net.RetrofitClient
-import com.oo.resume.param.response.ErrorBody
-import com.oo.resume.param.response.ResumeDTO
+import com.oo.resume.data.response.ErrorBody
+import com.oo.resume.data.response.ResumeDTO
 import com.oo.resume.service.ResumeService
 
 /**

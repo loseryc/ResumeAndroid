@@ -1,6 +1,6 @@
 package com.oo.resume.net
 
-import com.oo.resume.param.response.ErrorBody
+import com.oo.resume.data.response.ErrorBody
 import io.reactivex.annotations.Nullable
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException

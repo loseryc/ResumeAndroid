@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.oo.platform.view.BaseFragment
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
-import com.oo.resume.param.response.AccountDTO
+import com.oo.resume.data.response.AccountDTO
 import com.oo.resume.viewmodel.AccountViewModel
 import com.oo.resume.widget.ActionSheetDialog
 import kotlinx.android.synthetic.main.fragment_mine.*

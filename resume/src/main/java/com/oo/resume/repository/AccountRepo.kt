@@ -9,10 +9,10 @@ import com.oo.platform.repo.IRepository
 import com.oo.resume.net.BaseObserver
 import com.oo.resume.net.ResposeResult
 import com.oo.resume.net.RetrofitClient
-import com.oo.resume.param.request.LoginRequest
-import com.oo.resume.param.request.RegistRequest
-import com.oo.resume.param.response.AccountDTO
-import com.oo.resume.param.response.ErrorBody
+import com.oo.resume.data.request.LoginRequest
+import com.oo.resume.data.request.RegistRequest
+import com.oo.resume.data.response.AccountDTO
+import com.oo.resume.data.response.ErrorBody
 import com.oo.resume.service.AccountService
 import com.oo.resume.util.SpUtil
 

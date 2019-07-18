@@ -1,7 +1,7 @@
 package com.oo.resume.service
 
 import com.oo.resume.data.path.UrlConst
-import com.oo.resume.param.response.ResumeDTO
+import com.oo.resume.data.response.ResumeDTO
 import io.reactivex.Observable
 import retrofit2.http.GET
 

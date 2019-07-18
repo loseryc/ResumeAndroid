@@ -2,7 +2,7 @@ package com.oo.resume.net
 
 import android.text.TextUtils
 import com.oo.platform.repo.RepositoryFactory
-import com.oo.resume.param.header.HeaderConst
+import com.oo.resume.data.header.HeaderConst
 import com.oo.resume.repository.SessionRepo
 import okhttp3.Interceptor
 import okhttp3.Response

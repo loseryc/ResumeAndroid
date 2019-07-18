@@ -6,9 +6,9 @@ import com.oo.platform.repo.AbsentLiveData
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.viewmodel.BaseViewModel
 import com.oo.resume.net.ResposeResult
-import com.oo.resume.param.request.LoginRequest
-import com.oo.resume.param.request.RegistRequest
-import com.oo.resume.param.response.AccountDTO
+import com.oo.resume.data.request.LoginRequest
+import com.oo.resume.data.request.RegistRequest
+import com.oo.resume.data.response.AccountDTO
 import com.oo.resume.repository.AccountRepo
 import com.oo.resume.repository.SessionRepo
 

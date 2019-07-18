@@ -11,8 +11,8 @@ import com.oo.platform.view.BaseActivity
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
 import com.oo.resume.constance.Regex
-import com.oo.resume.param.request.LoginRequest
-import com.oo.resume.param.request.RegistRequest
+import com.oo.resume.data.request.LoginRequest
+import com.oo.resume.data.request.RegistRequest
 import com.oo.resume.viewmodel.SignInViewModel
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import java.util.regex.Pattern

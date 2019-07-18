@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.oo.platform.view.BaseFragment
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
-import com.oo.resume.param.response.ResumeDTO
+import com.oo.resume.data.response.ResumeDTO
 import com.oo.resume.viewmodel.ResumeListViewModel
 import kotlinx.android.synthetic.main.fragment_resume_list.*
 import kotlinx.android.synthetic.main.item_resume_card.view.*

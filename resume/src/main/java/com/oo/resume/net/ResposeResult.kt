@@ -2,7 +2,7 @@ package com.oo.resume.net
 
 import com.oo.platform.repo.BaseResult
 import com.oo.platform.repo.StatusValue
-import com.oo.resume.param.response.ErrorBody
+import com.oo.resume.data.response.ErrorBody
 
 /**
  *  $author yangchao

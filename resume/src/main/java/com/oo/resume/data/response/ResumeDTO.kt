@@ -1,4 +1,4 @@
-package com.oo.resume.param.response
+package com.oo.resume.data.response
 
 /**
  *  yangchao yangchao
