@@ -32,7 +32,7 @@ class ResumeRepo : IRepository {
                     }
 
 
-                    override fun onApiError(errors: ErrorBody?) {
+                    override fun onError(errors: ErrorBody?) {
                         observable.postValue(ResposeResult.failure(errors))
                     }
 

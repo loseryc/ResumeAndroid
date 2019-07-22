@@ -64,7 +64,7 @@ class AccountRepo : IRepository {
                         observable.postValue(ResposeResult.success(it))
                     }
 
-                    override fun onApiError(errors: ErrorBody?) {
+                    override fun onError(errors: ErrorBody?) {
                         observable.postValue(ResposeResult.failure(errors))
                     }
 
@@ -85,7 +85,7 @@ class AccountRepo : IRepository {
                         observable.postValue(ResposeResult.success(it))
                     }
 
-                    override fun onApiError(errors: ErrorBody?) {
+                    override fun onError(errors: ErrorBody?) {
                         observable.postValue(ResposeResult.failure(errors))
                     }
 
@@ -106,7 +106,7 @@ class AccountRepo : IRepository {
                         observable.postValue(ResposeResult.success(it))
                     }
 
-                    override fun onApiError(errors: ErrorBody?) {
+                    override fun onError(errors: ErrorBody?) {
                         observable.postValue(ResposeResult.failure(errors))
                     }
 

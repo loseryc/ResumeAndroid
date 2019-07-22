@@ -1,10 +1,13 @@
 package com.oo.resume.net
 
+import com.oo.resume.data.const.ApiErrorCode
 import com.oo.resume.data.response.ErrorBody
 import io.reactivex.annotations.Nullable
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 /**
  *  $author yangchao
@@ -15,35 +18,37 @@ import java.io.IOException
 abstract class BaseObserver<T> : DisposableObserver<T>() {
 
     override fun onError(e: Throwable) {
-        onApiError(asApiErrors(e))
-    }
-
-    protected open fun onApiError(@Nullable errors: ErrorBody?){
-
+        onError(asApiErrors(e))
     }
 
     private fun asApiErrors(throwable: Throwable): ErrorBody? {
         // We had non-200 http error
-        if (throwable is HttpException) {
-            try {
-                val response = throwable.response()
-                val body = response?.errorBody()
-                if (body == null) {
-                    return null
-                }
-                val converter = RetrofitClient.get().responseBodyConverter<ErrorBody>(
-                    ErrorBody::class.java,
-                    arrayOfNulls(0)
-                )
-                return converter.convert(body)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            } catch (e: RuntimeException) {
-                e.printStackTrace()
-            }
-
+        when (throwable.javaClass) {
+            HttpException::class.java -> return handApiError(throwable as HttpException)
+            SocketTimeoutException::class.java -> return ErrorBody(ApiErrorCode.SOCKET_TIMEOUT, throwable.message)
+            ConnectException::class.java -> return ErrorBody(ApiErrorCode.NETWORK_UNREACHABLE, throwable.message)
         }
-        return null
+        return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
+    }
+
+    private fun handApiError(throwable: HttpException): ErrorBody? {
+        val response = throwable.response()
+        val body = response?.errorBody()
+        if (body == null) return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
+        try {
+            return RetrofitClient.get().responseBodyConverter<ErrorBody>(
+                ErrorBody::class.java, arrayOfNulls(0)
+            ).convert(body)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: RuntimeException) {
+            e.printStackTrace()
+        }
+        return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
+    }
+
+    protected open fun onError(@Nullable errors: ErrorBody?) {
+
     }
 
     override fun onComplete() {
