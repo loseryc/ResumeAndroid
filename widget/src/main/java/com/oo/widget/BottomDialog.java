@@ -1,4 +1,4 @@
-package com.oo.resume.widget;
+package com.oo.widget;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,13 +11,12 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import com.oo.resume.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActionSheetDialog {
+public class BottomDialog {
     private Dialog dialog;
     private TextView txt_title;
     private View txt_title_layout;
@@ -28,23 +27,23 @@ public class ActionSheetDialog {
     private final Context context;
     private final DisplayMetrics display;
 
-    public ActionSheetDialog(Context context) {
+    public BottomDialog(Context context) {
         this.context = context;
         display = context.getResources().getDisplayMetrics();
     }
 
-    public ActionSheetDialog builder() {
+    public BottomDialog builder() {
         // 获取Dialog布局
         View view = LayoutInflater.from(context).inflate(
-                R.layout.view_actionsheet, null);
+                R.layout.dialog_bottom, null);
 
         // 设置Dialog最小宽度为屏幕宽度
         view.setMinimumWidth(display.widthPixels);
 
         // 获取自定义Dialog布局中的控件
-        lLayout_content = (LinearLayout) view.findViewById(R.id.lLayout_content);
+        lLayout_content = view.findViewById(R.id.lLayout_content);
         txt_title_layout = view.findViewById(R.id.txt_title_layout);
-        txt_title = (TextView) view.findViewById(R.id.txt_title);
+        txt_title = view.findViewById(R.id.txt_title);
 
         // 定义Dialog布局和参数
         dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
@@ -60,18 +59,18 @@ public class ActionSheetDialog {
         return this;
     }
 
-    public ActionSheetDialog setTitle(String title) {
+    public BottomDialog setTitle(String title) {
         txt_title_layout.setVisibility(View.VISIBLE);
         txt_title.setText(title);
         return this;
     }
 
-    public ActionSheetDialog setCancelable(boolean cancel) {
+    public BottomDialog setCancelable(boolean cancel) {
         dialog.setCancelable(cancel);
         return this;
     }
 
-    public ActionSheetDialog setCanceledOnTouchOutside(boolean cancel) {
+    public BottomDialog setCanceledOnTouchOutside(boolean cancel) {
         dialog.setCanceledOnTouchOutside(cancel);
         return this;
     }
@@ -82,8 +81,8 @@ public class ActionSheetDialog {
      * @param listener listener
      * @return ActionSheetDialog
      */
-    public ActionSheetDialog addSheetItem(String strItem,
-                                          OnSheetItemClickListener listener) {
+    public BottomDialog addSheetItem(String strItem,
+                                     OnSheetItemClickListener listener) {
         if (sheetItemList == null) {
             sheetItemList = new ArrayList<>();
         }
@@ -116,7 +115,7 @@ public class ActionSheetDialog {
             textView.setGravity(Gravity.CENTER);
 
             // 字体颜色
-            textView.setTextColor(context.getResources().getColor(R.color.text_black));
+            textView.setTextColor(Color.BLACK);
 
             // 高度
             float scale = context.getResources().getDisplayMetrics().density;

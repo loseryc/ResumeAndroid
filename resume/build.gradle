@@ -71,4 +71,5 @@ dependencies {
     implementation dep.design
     implementation project(path: ':platform')
     implementation project(path: ':data')
+    implementation project(path: ':widget')
 }

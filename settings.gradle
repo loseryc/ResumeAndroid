@@ -1,1 +1,1 @@
-include ':resume', ':platform', ':data'
+include ':resume', ':platform', ':data', ':widget'

@@ -1,6 +1,5 @@
 package com.oo.resume.activity
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -14,13 +13,14 @@ import com.oo.resume.constance.Regex
 import com.oo.resume.data.request.LoginRequest
 import com.oo.resume.data.request.RegistRequest
 import com.oo.resume.viewmodel.SignInViewModel
+import com.oo.widget.OoDialog
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import java.util.regex.Pattern
 
 @Route(RouteUrl.SIGNIN_PAGE)
 class SignInActivity : BaseActivity() {
 
-    private lateinit var loading: AlertDialog
+    private lateinit var loading: OoDialog
 
     private lateinit var viewmodel: SignInViewModel
 
@@ -37,11 +37,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun initLoadingDialog() {
-        loading = AlertDialog.Builder(this)
-            .setMessage("Loading")
-            .setCancelable(false)
-            .setIcon(R.mipmap.ic_launcher_round)
-            .create()
+        loading = OoDialog(this, OoDialog.TYPE_LOADING, "Loading")
     }
 
     private fun refreshUI(type: SignInViewModel.SignType) {
