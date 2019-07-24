@@ -2,4 +2,5 @@
 <resources>
     <color name="text_black">#333</color>
     <color name="text_grey">#666</color>
+    <color name="hoary">#f7f7f7</color>
 </resources>

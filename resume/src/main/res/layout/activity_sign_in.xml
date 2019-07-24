@@ -78,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@id/et_phone"/>
 
     <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_new_password"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -111,7 +111,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/tv_password_title"
-            app:layout_constraintTop_toBottomOf="@+id/et_password"/>
+            app:layout_constraintTop_toBottomOf="@+id/et_new_password"/>
 
     <EditText
             android:id="@+id/et_name"
@@ -131,8 +131,8 @@
             android:textCursorDrawable="@null"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/tv_name_title"
-            app:layout_constraintEnd_toEndOf="@+id/et_password"
-            app:layout_constraintStart_toStartOf="@+id/et_password"
+            app:layout_constraintEnd_toEndOf="@+id/et_new_password"
+            app:layout_constraintStart_toStartOf="@+id/et_new_password"
             app:layout_constraintTop_toTopOf="@id/tv_name_title"
             tools:text="13829838299"/>
 

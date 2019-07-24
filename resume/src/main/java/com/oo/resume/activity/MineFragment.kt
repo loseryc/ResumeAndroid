@@ -52,7 +52,7 @@ class MineFragment : BaseFragment() {
                 .addSheetItem("男", BottomDialog.OnSheetItemClickListener { sex.text = "男" })
                 .addSheetItem("女", BottomDialog.OnSheetItemClickListener { sex.text = "女" }).show()
         })
-        password.setOnClickListener { }
+        password.setOnClickListener { Router.build(RouteUrl.RESET_PASSWORD_PAGE).go(this) }
         exit.setOnClickListener { viewModel.logout() }
     }
 

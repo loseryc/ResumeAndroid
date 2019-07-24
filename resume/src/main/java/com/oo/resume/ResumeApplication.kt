@@ -1,7 +1,6 @@
 package com.oo.resume
 
 import android.app.Application
-import androidx.multidex.MultiDexApplication
 import com.chenenyu.router.Router
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.oo.resume.activity.RouteSessionInterceptor
@@ -12,7 +11,7 @@ import com.oo.resume.activity.RouteSessionInterceptor
  *  $date   2019-06-02 17:18
  *  $describe
  */
-class ResumeApplication : MultiDexApplication() {
+class ResumeApplication : Application() {
 
     companion object {
         var INSTANCE: Application? = null

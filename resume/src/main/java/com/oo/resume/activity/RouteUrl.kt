@@ -10,5 +10,6 @@ interface RouteUrl {
     companion object {
         const val HOME_PAGE = "home_page"
         const val SIGNIN_PAGE = "signin_page"
+        const val RESET_PASSWORD_PAGE = "reset_password_page"
     }
 }

@@ -23,12 +23,12 @@ abstract class BaseObserver<T> : DisposableObserver<T>() {
 
     private fun asApiErrors(throwable: Throwable): ErrorBody? {
         // We had non-200 http error
-        when (throwable.javaClass) {
-            HttpException::class.java -> return handApiError(throwable as HttpException)
-            SocketTimeoutException::class.java -> return ErrorBody(ApiErrorCode.SOCKET_TIMEOUT, throwable.message)
-            ConnectException::class.java -> return ErrorBody(ApiErrorCode.NETWORK_UNREACHABLE, throwable.message)
+        when (throwable) {
+            is HttpException -> return handApiError(throwable)
+            is SocketTimeoutException -> return ErrorBody(ApiErrorCode.SOCKET_TIMEOUT, throwable.message)
+            is ConnectException -> return ErrorBody(ApiErrorCode.NETWORK_UNREACHABLE, throwable.message)
+            else -> return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
         }
-        return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
     }
 
     private fun handApiError(throwable: HttpException): ErrorBody? {

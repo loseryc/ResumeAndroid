@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_resume_card.view.*
 class ResumeListFragment : BaseFragment() {
 
 
-    private lateinit var viewmodel: ResumeListViewModel
+    private lateinit var viewModel: ResumeListViewModel
     private lateinit var adapter: ResumeAdapter
 
     override fun getContentViewResId(): Int {
@@ -27,7 +27,7 @@ class ResumeListFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewmodel = ViewModelBinder.bind(this, ResumeListViewModel::class.java)
+        viewModel = ViewModelBinder.bind(this, ResumeListViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class ResumeListFragment : BaseFragment() {
     }
 
     private fun observe() {
-        viewmodel.getResumeList().observe(this, Observer { result ->
+        viewModel.getResumeList().observe(this, Observer { result ->
             if (result == null) return@Observer
             if (result.isLoading) {
                 srl_refresh.isRefreshing = true
@@ -56,11 +56,11 @@ class ResumeListFragment : BaseFragment() {
                 showToast(result.errors.msg)
             }
         })
-        viewmodel.refresh()
+        viewModel.refresh()
     }
 
     private fun setListener() {
-        srl_refresh.setOnRefreshListener { viewmodel.refresh() }
+        srl_refresh.setOnRefreshListener { viewModel.refresh() }
     }
 
 

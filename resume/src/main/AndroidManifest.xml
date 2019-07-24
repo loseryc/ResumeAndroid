@@ -35,6 +35,9 @@
                 android:name=".activity.SignInActivity"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait"/>
+        <activity
+                android:name=".activity.ResetPasswordActivity"
+                android:screenOrientation="portrait"/>
 
 
     </application>

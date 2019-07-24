@@ -104,7 +104,7 @@ class SignInActivity : BaseActivity() {
     private fun doConfirm() {
         val name = et_name.text.toString()
         val phone = et_phone.text.toString()
-        val password = et_password.text.toString()
+        val password = et_new_password.text.toString()
         if (phone.isNullOrEmpty()) {
             showToast("电话不能为空")
             return
