@@ -1,5 +1,6 @@
 package com.oo.resume.activity
 
+import android.content.Intent
 import android.net.Uri
 import com.chenenyu.router.RouteInterceptor
 import com.chenenyu.router.RouteResponse
@@ -18,7 +19,8 @@ class RouteSessionInterceptor : RouteInterceptor {
 
     override fun intercept(chain: RouteInterceptor.Chain): RouteResponse {
         if (sessionRepo.isLogin()) return chain.process()
-        chain.request.setUri(Uri.parse(RouteUrl.SIGNIN_PAGE))
+        chain.request.uri = Uri.parse(RouteUrl.SIGNIN_PAGE)
+        chain.request.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
         return chain.process()
     }
 

@@ -47,6 +47,10 @@ class SessionRepo : IRepository {
         })
     }
 
+    public fun logout(){
+        setSession(null,null)
+    }
+
     public fun isLogin(): Boolean {
         return !TextUtils.isEmpty(sessionKey.value) && !TextUtils.isEmpty(sessionUser.value)
     }

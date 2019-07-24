@@ -1,6 +1,8 @@
 package com.oo.resume.activity
 
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -30,7 +32,8 @@ class HomeActivity : BaseActivity() {
         Page.values().forEachIndexed { index, page -> tabs.getTabAt(index)?.text = page.title }
     }
 
-    inner class HomeFragmetPageAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class HomeFragmetPageAdapter(manager: FragmentManager) :
+        FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
             when (Page.getPage(position)) {
                 Page.ResumeList -> return ResumeListFragment()
@@ -43,6 +46,26 @@ class HomeActivity : BaseActivity() {
             return Page.values().size
         }
 
+    }
+
+    private var mExitPressed: Boolean = false
+    override fun onBackPressed() {
+        if (mExitPressed) {
+            System.exit(0)
+        } else {
+            mExitPressed = true
+            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT)
+
+            object : CountDownTimer(2000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                }
+
+                override fun onFinish() {
+                    mExitPressed = false
+                }
+            }.start()
+        }
     }
 
     enum class Page(val index: Int, val title: String) {

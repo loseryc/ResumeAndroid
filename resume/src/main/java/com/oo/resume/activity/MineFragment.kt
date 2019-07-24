@@ -3,6 +3,7 @@ package com.oo.resume.activity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.chenenyu.router.Router
 import com.oo.platform.view.BaseFragment
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
@@ -41,7 +42,7 @@ class MineFragment : BaseFragment() {
     }
 
     private fun setListener() {
-        btn_save.setOnClickListener(View.OnClickListener { viewModel.update(getUIAccount()) })
+        save.setOnClickListener(View.OnClickListener { viewModel.update(getUIAccount()) })
         sex.setOnClickListener(View.OnClickListener {
             BottomDialog(context)
                 .builder()
@@ -51,6 +52,8 @@ class MineFragment : BaseFragment() {
                 .addSheetItem("男", BottomDialog.OnSheetItemClickListener { sex.text = "男" })
                 .addSheetItem("女", BottomDialog.OnSheetItemClickListener { sex.text = "女" }).show()
         })
+        password.setOnClickListener { }
+        exit.setOnClickListener { viewModel.logout() }
     }
 
     private fun getUIAccount(): AccountDTO {
@@ -63,6 +66,12 @@ class MineFragment : BaseFragment() {
 
     private fun observe() {
         viewModel.getAccountInfo().observe(this, Observer { refreshView(it) })
+
+        viewModel.getLogoutResult().observe(this, Observer {
+            Router.build(RouteUrl.SIGNIN_PAGE).go(this)
+            activity?.finish()
+        })
+
         viewModel.getUpdateResult().observe(this, Observer { result ->
             if (result == null) return@Observer
             if (result.isLoading) {
@@ -74,7 +83,7 @@ class MineFragment : BaseFragment() {
     }
 
     private fun initLoadingDialog() {
-        loading = OoDialog(context, OoDialog.TYPE_LOADING,"Loading")
+        loading = OoDialog(context, OoDialog.TYPE_LOADING, "Loading")
     }
 
     private fun refreshView(account: AccountDTO?) {
