@@ -1,6 +1,6 @@
 package com.oo.resume.service
 
-import com.oo.resume.data.path.UrlConst
+import com.oo.resume.data.path.AccountUrl
 import com.oo.resume.data.request.LoginRequest
 import com.oo.resume.data.request.RegistRequest
 import com.oo.resume.data.response.AccountDTO
@@ -11,13 +11,13 @@ import retrofit2.http.PUT
 
 interface AccountService {
 
-    @POST(UrlConst.ACCOUNT_PREFIX + UrlConst.ACCOUNT_REGIST)
+    @POST(AccountUrl.PREFIX + AccountUrl.PATH_REGIST)
     fun regist(@Body params: RegistRequest): Observable<AccountDTO>
 
-    @POST(UrlConst.ACCOUNT_PREFIX + UrlConst.ACCOUNT_LOGIN)
+    @POST(AccountUrl.PREFIX + AccountUrl.PATH_LOGIN)
     fun login(@Body params: LoginRequest): Observable<AccountDTO>
 
-    @PUT(UrlConst.ACCOUNT_PREFIX + UrlConst.ACCOUNT_UPDATE)
+    @PUT(AccountUrl.PREFIX + AccountUrl.PATH_UPDATE)
     fun update(@Body params: AccountDTO): Observable<AccountDTO>
 
 }
