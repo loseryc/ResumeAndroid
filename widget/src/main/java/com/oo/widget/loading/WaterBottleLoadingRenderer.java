@@ -19,7 +19,7 @@ public class WaterBottleLoadingRenderer extends LoadingRenderer {
     private static final float DEFAULT_BOTTLE_HEIGHT = 43;
     private static final float WATER_LOWEST_POINT_TO_BOTTLENECK_DISTANCE = 30;
 
-    private static final int DEFAULT_WAVE_COUNT = 5;
+    private static final int DEFAULT_WAVE_COUNT = 10;
     private static final int DEFAULT_WATER_DROP_COUNT = 25;
 
     private static final int MAX_WATER_DROP_RADIUS = 5;
@@ -111,7 +111,6 @@ public class WaterBottleLoadingRenderer extends LoadingRenderer {
                 canvas.drawCircle(waterDropHolder.mInitX, waterDropHolder.mCurrentY, waterDropHolder.mRadius, mPaint);
             }
         }
-
         //draw loading text
         mPaint.setColor(mBottleColor);
 //        canvas.drawText(LOADING_TEXT, mBottleBounds.centerX() - mLoadingBounds.width() / 2.0f,
@@ -167,68 +166,79 @@ public class WaterBottleLoadingRenderer extends LoadingRenderer {
         mPaint.getTextBounds(LOADING_TEXT, 0, LOADING_TEXT.length(), mLoadingBounds);
     }
 
+    Path bottlePath = new Path();
+    RectF bottleBodyRect = new RectF(0, 0, 0, 0);
+
     private Path createBottlePath(RectF bottleRect) {
         float bottleneckWidth = bottleRect.width() * 0.3f;
         float bottleneckHeight = bottleRect.height() * 0.415f;
         float bottleneckDecorationWidth = bottleneckWidth * 1.1f;
         float bottleneckDecorationHeight = bottleneckHeight * 0.167f;
 
-        Path path = new Path();
+        bottlePath.reset();
         //draw the left side of the bottleneck decoration
-        path.moveTo(bottleRect.centerX() - bottleneckDecorationWidth * 0.5f, bottleRect.top);
-        path.quadTo(bottleRect.centerX() - bottleneckDecorationWidth * 0.5f - bottleneckWidth * 0.15f, bottleRect.top + bottleneckDecorationHeight * 0.5f,
+        bottlePath.moveTo(bottleRect.centerX() - bottleneckDecorationWidth * 0.5f, bottleRect.top);
+        bottlePath.quadTo(bottleRect.centerX() - bottleneckDecorationWidth * 0.5f - bottleneckWidth * 0.15f, bottleRect.top + bottleneckDecorationHeight * 0.5f,
                 bottleRect.centerX() - bottleneckWidth * 0.5f, bottleRect.top + bottleneckDecorationHeight);
-        path.lineTo(bottleRect.centerX() - bottleneckWidth * 0.5f, bottleRect.top + bottleneckHeight);
+        bottlePath.lineTo(bottleRect.centerX() - bottleneckWidth * 0.5f, bottleRect.top + bottleneckHeight);
 
         //draw the left side of the bottle's body
         float radius = (bottleRect.width() - mStrokeWidth) / 2.0f;
         float centerY = bottleRect.bottom - 0.86f * radius;
-        RectF bodyRect = new RectF(bottleRect.left, centerY - radius, bottleRect.right, centerY + radius);
-        path.addArc(bodyRect, 255, -135);
+        bottleBodyRect.left = bottleRect.left;
+        bottleBodyRect.top = centerY - radius;
+        bottleBodyRect.right = bottleRect.right;
+        bottleBodyRect.bottom = centerY + radius;
+        bottlePath.addArc(bottleBodyRect, 255, -135);
 
         //draw the bottom of the bottle
         float bottleBottomWidth = bottleRect.width() / 2.0f;
-        path.lineTo(bottleRect.centerX() - bottleBottomWidth / 2.0f, bottleRect.bottom);
-        path.lineTo(bottleRect.centerX() + bottleBottomWidth / 2.0f, bottleRect.bottom);
+        bottlePath.lineTo(bottleRect.centerX() - bottleBottomWidth / 2.0f, bottleRect.bottom);
+        bottlePath.lineTo(bottleRect.centerX() + bottleBottomWidth / 2.0f, bottleRect.bottom);
 
         //draw the right side of the bottle's body
-        path.addArc(bodyRect, 60, -135);
+        bottlePath.addArc(bottleBodyRect, 60, -135);
 
         //draw the right side of the bottleneck decoration
-        path.lineTo(bottleRect.centerX() + bottleneckWidth * 0.5f, bottleRect.top + bottleneckDecorationHeight);
-        path.quadTo(bottleRect.centerX() + bottleneckDecorationWidth * 0.5f + bottleneckWidth * 0.15f, bottleRect.top + bottleneckDecorationHeight * 0.5f,
+        bottlePath.lineTo(bottleRect.centerX() + bottleneckWidth * 0.5f, bottleRect.top + bottleneckDecorationHeight);
+        bottlePath.quadTo(bottleRect.centerX() + bottleneckDecorationWidth * 0.5f + bottleneckWidth * 0.15f, bottleRect.top + bottleneckDecorationHeight * 0.5f,
                 bottleRect.centerX() + bottleneckDecorationWidth * 0.5f, bottleRect.top);
 
-        return path;
+        return bottlePath;
     }
 
-    private Path createWaterPath(RectF waterRect, float progress) {
-        Path path = new Path();
+    Path waterPath = new Path();
+    RectF waterBodyRect = new RectF(0, 0, 0, 0);
 
-        path.moveTo(waterRect.left, waterRect.top);
+    private Path createWaterPath(RectF waterRect, float progress) {
+        waterPath.reset();
+        waterPath.moveTo(waterRect.left, waterRect.top);
 
         //Similar to the way draw the bottle's bottom sides
         float radius = (waterRect.width() - mStrokeWidth) / 2.0f;
         float centerY = waterRect.bottom - 0.86f * radius;
         float bottleBottomWidth = waterRect.width() / 2.0f;
-        RectF bodyRect = new RectF(waterRect.left, centerY - radius, waterRect.right, centerY + radius);
+        waterBodyRect.left = waterRect.left;
+        waterBodyRect.top = centerY - radius;
+        waterBodyRect.right = waterRect.right;
+        waterBodyRect.bottom = centerY + radius;
 
-        path.addArc(bodyRect, 187.5f, -67.5f);
-        path.lineTo(waterRect.centerX() - bottleBottomWidth / 2.0f, waterRect.bottom);
-        path.lineTo(waterRect.centerX() + bottleBottomWidth / 2.0f, waterRect.bottom);
-        path.addArc(bodyRect, 60, -67.5f);
+        waterPath.addArc(waterBodyRect, 187.5f, -67.5f);
+        waterPath.lineTo(waterRect.centerX() - bottleBottomWidth / 2.0f, waterRect.bottom);
+        waterPath.lineTo(waterRect.centerX() + bottleBottomWidth / 2.0f, waterRect.bottom);
+        waterPath.addArc(waterBodyRect, 60, -67.5f);
 
         //draw the water waves
         float cubicXChangeSize = waterRect.width() * 0.35f * progress;
         float cubicYChangeSize = waterRect.height() * 1.2f * progress;
 
-        path.cubicTo(waterRect.left + waterRect.width() * 0.80f - cubicXChangeSize, waterRect.top - waterRect.height() * 1.2f + cubicYChangeSize,
+        waterPath.cubicTo(waterRect.left + waterRect.width() * 0.80f - cubicXChangeSize, waterRect.top - waterRect.height() * 1.2f + cubicYChangeSize,
                 waterRect.left + waterRect.width() * 0.55f - cubicXChangeSize, waterRect.top - cubicYChangeSize,
                 waterRect.left, waterRect.top - mStrokeWidth / 2.0f);
 
-        path.lineTo(waterRect.left, waterRect.top);
+        waterPath.lineTo(waterRect.left, waterRect.top);
 
-        return path;
+        return waterPath;
     }
 
     private void initWaterDropHolders(RectF bottleRect, RectF waterRect) {
