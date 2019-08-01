@@ -30,8 +30,10 @@ object RetrofitClient {
         return Retrofit.Builder()
             .client(client)
             .baseUrl(BuildConfig.API_HOST)
+            .addConverterFactory(ResponseResultFactory.create())
             .addConverterFactory(ProtoConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
+
             .addCallAdapterFactory(LiveDataCallAdapter.create())
     }
 
