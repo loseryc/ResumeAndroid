@@ -3,15 +3,12 @@ package com.oo.resume.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.oo.platform.repo.IRepository
 import com.oo.resume.data.request.LoginRequest
 import com.oo.resume.data.request.RegistRequest
 import com.oo.resume.data.request.ResetPasswordRequest
 import com.oo.resume.data.response.AccountDTO
-import com.oo.resume.data.response.ErrorBody
-import com.oo.resume.net.BaseObserver
 import com.oo.resume.net.ResposeResult
 import com.oo.resume.net.RetrofitClient
 import com.oo.resume.service.AccountService
@@ -53,86 +50,28 @@ class AccountRepo : IRepository {
     }
 
     fun login(request: LoginRequest): LiveData<ResposeResult<AccountDTO>> {
-        val observable = MutableLiveData<ResposeResult<AccountDTO>>()
-        observable.setValue(ResposeResult.loading(null))
-        RetrofitClient
+        return RetrofitClient
             .getService(AccountService::class.java)
             .login(request)
-            .subscribe(object : BaseObserver<AccountDTO>() {
 
-                override fun onNext(it: AccountDTO) {
-                    storeAccount(it)
-                    observable.postValue(ResposeResult.success(it))
-                }
-
-                override fun onError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
-
-            })
-        return observable
     }
 
     fun resetPassword(request: ResetPasswordRequest): LiveData<ResposeResult<Boolean>> {
-        val observable = MutableLiveData<ResposeResult<Boolean>>()
-        observable.value = ResposeResult.loading(null)
-        RetrofitClient
+        return RetrofitClient
             .getService(AccountService::class.java)
             .resetPassword(request)
-            .subscribe(object : BaseObserver<Boolean>() {
-
-                override fun onNext(it: Boolean) {
-                    observable.postValue(ResposeResult.success(it))
-                }
-
-                override fun onError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
-
-            })
-        return observable
     }
 
     fun update(request: AccountDTO): LiveData<ResposeResult<AccountDTO>> {
-        val observable = MutableLiveData<ResposeResult<AccountDTO>>()
-        observable.value = ResposeResult.loading(null)
-        RetrofitClient
+        return RetrofitClient
             .getService(AccountService::class.java)
             .update(request)
-            .subscribe(object : BaseObserver<AccountDTO>() {
-
-                override fun onNext(it: AccountDTO) {
-                    storeAccount(it)
-                    observable.postValue(ResposeResult.success(it))
-                }
-
-                override fun onError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
-
-            })
-        return observable
     }
 
     fun regist(request: RegistRequest): LiveData<ResposeResult<AccountDTO>> {
-        val observable = MutableLiveData<ResposeResult<AccountDTO>>()
-        observable.setValue(ResposeResult.loading(null))
-        RetrofitClient
+        return RetrofitClient
             .getService(AccountService::class.java)
             .regist(request)
-            .subscribe(object : BaseObserver<AccountDTO>() {
-
-                override fun onNext(it: AccountDTO) {
-                    storeAccount(it)
-                    observable.postValue(ResposeResult.success(it))
-                }
-
-                override fun onError(errors: ErrorBody?) {
-                    observable.postValue(ResposeResult.failure(errors))
-                }
-
-            })
-        return observable
     }
 
     companion object {

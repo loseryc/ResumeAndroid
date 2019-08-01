@@ -14,23 +14,23 @@ class ResposeResult<T>(status: Int, data: T?, errors: ErrorBody?) : BaseResult<T
 
     companion object {
 
-        fun <T> success(data: T): ResposeResult<T> {
+        fun <T> success(data: T?): ResposeResult<T?> {
             return ResposeResult(StatusValue.SUCCESS, data, null)
         }
 
-        fun <T> loading(): ResposeResult<T> {
+        fun <T> loading(): ResposeResult<T?> {
             return loading(null)
         }
 
-        fun <T> loading(data: T?): ResposeResult<T> {
+        fun <T> loading(data: T?): ResposeResult<T?> {
             return ResposeResult(StatusValue.LOADING, data, null)
         }
 
-        fun <T> failure(errors: ErrorBody?): ResposeResult<T> {
+        fun <T> failure(errors: ErrorBody?): ResposeResult<T?> {
             return failure(null, errors)
         }
 
-        fun <T> failure(data: T?, errors: ErrorBody?): ResposeResult<T> {
+        fun <T> failure(data: T?, errors: ErrorBody?): ResposeResult<T?> {
             return ResposeResult(StatusValue.FAILURE, data, errors)
         }
     }

@@ -32,7 +32,7 @@ object RetrofitClient {
             .baseUrl(BuildConfig.API_HOST)
             .addConverterFactory(ProtoConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2AsyncAutoMainCallAdapterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapter.create())
     }
 
     private val mServicePools = ArrayMap<Class<*>, Any>()
