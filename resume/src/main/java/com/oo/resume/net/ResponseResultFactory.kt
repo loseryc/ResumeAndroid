@@ -22,9 +22,9 @@ import java.lang.reflect.Type
 class ResponseResultFactory private constructor() : Converter.Factory() {
 
     override fun responseBodyConverter(
-        type: Type?, annotations: Array<Annotation>?,
-        retrofit: Retrofit?
-    ): Converter<ResponseBody, *>? {
+        type: Type, annotations: Array<Annotation>,
+        retrofit: Retrofit
+    ): Converter<ResponseBody, *> {
         if (type is ParameterizedType) {
             var parameterizedType: ParameterizedType = type
             if (parameterizedType.rawType === Response::class.java) {
@@ -36,10 +36,10 @@ class ResponseResultFactory private constructor() : Converter.Factory() {
 
             if (parameterizedType.rawType === ResposeResult::class.java) {
                 val realType = parameterizedType.actualTypeArguments[0]
-                return retrofit!!.nextResponseBodyConverter<Any>(this, realType, annotations!!)
+                return retrofit.nextResponseBodyConverter<Any>(this, realType, annotations)
             }
         }
-        return retrofit!!.nextResponseBodyConverter<Any>(this, type!!, annotations!!)
+        return retrofit.nextResponseBodyConverter<Any>(this, type, annotations)
     }
 
     companion object {

@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.oo.resume.data.const.ApiErrorCode
 import com.oo.resume.data.response.ErrorBody
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import retrofit2.*
 import java.io.IOException
 import java.lang.reflect.ParameterizedType
@@ -15,14 +13,15 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 
-class LiveDataCallAdapter private constructor() : CallAdapter.Factory() {
+class LiveDataCallAdapter private constructor(
+    val subscribWorker: Scheduler.Worker,
+    val observeWorker: Scheduler.Worker
+) : CallAdapter.Factory() {
 
     companion object {
-        private var ioWorker: Scheduler.Worker = Schedulers.io().createWorker()
-        private var mainWorker: Scheduler.Worker = AndroidSchedulers.mainThread().createWorker()
 
-        fun create(): LiveDataCallAdapter {
-            return LiveDataCallAdapter()
+        fun create(subscribScheduler: Scheduler, observeScheduler: Scheduler): LiveDataCallAdapter {
+            return LiveDataCallAdapter(subscribScheduler.createWorker(), observeScheduler.createWorker())
         }
     }
 
@@ -57,7 +56,7 @@ class LiveDataCallAdapter private constructor() : CallAdapter.Factory() {
         override fun adapt(call: Call<R>): LiveData<ResposeResult<R?>> {
             val liveDataResponse = MutableLiveData<ResposeResult<R?>>()
             liveDataResponse.postValue(ResposeResult.loading())
-            ioWorker.schedule { call.enqueue(LiveDataResponseCallCallback(liveDataResponse)) }
+            subscribWorker.schedule { call.enqueue(LiveDataResponseCallCallback(liveDataResponse)) }
             return liveDataResponse
         }
 
@@ -66,7 +65,7 @@ class LiveDataCallAdapter private constructor() : CallAdapter.Factory() {
 
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (call.isCanceled) return
-                mainWorker.schedule {
+                observeWorker.schedule {
                     if (response.isSuccessful) {
                         liveData.postValue(ResposeResult.success(response.body()))
                     } else {
@@ -77,7 +76,7 @@ class LiveDataCallAdapter private constructor() : CallAdapter.Factory() {
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 if (call.isCanceled) return
-                mainWorker.schedule {
+                observeWorker.schedule {
                     liveData.postValue(ResposeResult.failure(asApiErrors(t)))
                 }
             }

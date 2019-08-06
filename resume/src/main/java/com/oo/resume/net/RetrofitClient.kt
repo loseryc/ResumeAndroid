@@ -2,6 +2,8 @@ package com.oo.resume.net
 
 import android.util.ArrayMap
 import com.oo.resume.BuildConfig
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,11 +32,11 @@ object RetrofitClient {
         return Retrofit.Builder()
             .client(client)
             .baseUrl(BuildConfig.API_HOST)
-            .addConverterFactory(ResponseResultFactory.create())
-            .addConverterFactory(ProtoConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
 
-            .addCallAdapterFactory(LiveDataCallAdapter.create())
+//            .addConverterFactory(ProtoConverterFactory.create())
+            .addConverterFactory(ResponseResultFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapter.create(Schedulers.io(), AndroidSchedulers.mainThread()))
     }
 
     private val mServicePools = ArrayMap<Class<*>, Any>()
