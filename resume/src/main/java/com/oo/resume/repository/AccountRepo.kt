@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import com.google.gson.Gson
 import com.oo.platform.repo.IRepository
+import com.oo.platform.repo.RepositoryFactory
 import com.oo.resume.data.request.LoginRequest
 import com.oo.resume.data.request.RegistRequest
 import com.oo.resume.data.request.ResetPasswordRequest
@@ -25,7 +26,7 @@ import com.oo.resume.util.SpUtil
 class AccountRepo : IRepository {
 
     private var account: MediatorLiveData<AccountDTO> = MediatorLiveData()
-
+    private var sessionRepo = RepositoryFactory.getRepository(SessionRepo::class.java)
 
     init {
         restoreAccount()
@@ -56,9 +57,20 @@ class AccountRepo : IRepository {
             .getService(AccountService::class.java)
             .login(request), Function { result ->
             if (result.isSuccess) storeAccount(result.data)
+            setSession(result)
             result
         })
     }
+
+    private fun setSession(result: ResposeResult<AccountDTO>?) {
+        if (result == null || !result.isSuccess || result.data == null
+            || result.data.session_key.isNullOrEmpty()
+            || result.data.session_user.isNullOrEmpty()
+        ) return
+
+        sessionRepo.setSession(result.data.session_user, result.data.session_key)
+    }
+
 
     fun resetPassword(request: ResetPasswordRequest): LiveData<ResposeResult<Boolean>> {
         return RetrofitClient
@@ -76,9 +88,13 @@ class AccountRepo : IRepository {
     }
 
     fun regist(request: RegistRequest): LiveData<ResposeResult<AccountDTO>> {
-        return RetrofitClient
+        return Transformations.map(RetrofitClient
             .getService(AccountService::class.java)
-            .regist(request)
+            .regist(request), Function { result ->
+            if (result.isSuccess) storeAccount(result.data)
+            setSession(result)
+            result
+        })
     }
 
     companion object {
