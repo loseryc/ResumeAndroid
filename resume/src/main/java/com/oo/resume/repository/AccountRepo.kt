@@ -1,8 +1,10 @@
 package com.oo.resume.repository
 
 import android.content.Context
+import androidx.arch.core.util.Function
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
 import com.google.gson.Gson
 import com.oo.platform.repo.IRepository
 import com.oo.resume.data.request.LoginRequest
@@ -50,10 +52,12 @@ class AccountRepo : IRepository {
     }
 
     fun login(request: LoginRequest): LiveData<ResposeResult<AccountDTO>> {
-        return RetrofitClient
+        return Transformations.map(RetrofitClient
             .getService(AccountService::class.java)
-            .login(request)
-
+            .login(request), Function { result ->
+            if (result.isSuccess && result.data != null) storeAccount(result.data)
+            result
+        })
     }
 
     fun resetPassword(request: ResetPasswordRequest): LiveData<ResposeResult<Boolean>> {
