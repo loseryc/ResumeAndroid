@@ -55,7 +55,7 @@ class AccountRepo : IRepository {
         return Transformations.map(RetrofitClient
             .getService(AccountService::class.java)
             .login(request), Function { result ->
-            if (result.isSuccess && result.data != null) storeAccount(result.data)
+            if (result.isSuccess) storeAccount(result.data)
             result
         })
     }
@@ -67,9 +67,12 @@ class AccountRepo : IRepository {
     }
 
     fun update(request: AccountDTO): LiveData<ResposeResult<AccountDTO>> {
-        return RetrofitClient
+        return Transformations.map(RetrofitClient
             .getService(AccountService::class.java)
-            .update(request)
+            .update(request), Function { result ->
+            if (result.isSuccess) storeAccount(result.data)
+            result
+        })
     }
 
     fun regist(request: RegistRequest): LiveData<ResposeResult<AccountDTO>> {
