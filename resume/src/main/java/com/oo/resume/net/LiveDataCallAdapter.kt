@@ -14,9 +14,8 @@ import java.net.SocketTimeoutException
 
 
 class LiveDataCallAdapter private constructor(
-    val subscribWorker: Scheduler.Worker,
-    val observeWorker: Scheduler.Worker
-) : CallAdapter.Factory() {
+        val subscribWorker: Scheduler.Worker,
+        val observeWorker: Scheduler.Worker) : CallAdapter.Factory() {
 
     companion object {
 
@@ -26,28 +25,29 @@ class LiveDataCallAdapter private constructor(
     }
 
     public override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
-        if (CallAdapter.Factory.getRawType(returnType) != LiveData::class.java) {
+        if (getRawType(returnType) != LiveData::class.java) {
             return null
         }
+
         if (returnType !is ParameterizedType) {
             throw IllegalStateException("Response must be parametrized as " + "LiveData<ResposeResult> or LiveData<? extends ResposeResult>")
         }
 
-        val responseType = CallAdapter.Factory.getParameterUpperBound(0, returnType)
-        when (CallAdapter.Factory.getRawType(responseType)) {
+        val responseType = getParameterUpperBound(0, returnType)
+        return when (getRawType(responseType)) {
             ResposeResult::class.java -> {
                 if (responseType !is ParameterizedType) {
                     throw IllegalStateException("Response must be parametrized as " + "LiveData<Response<ResposeResult>> or LiveData<Response<? extends ResposeResult>>")
                 }
 
-                return LiveDataResponseCallAdapter<Any>(responseType)
+                LiveDataResponseCallAdapter<Any>(responseType)
             }
-            else -> return null
+            else -> null
         }
     }
 
     inner class LiveDataResponseCallAdapter<R> internal constructor(private val responseType: Type) :
-        CallAdapter<R, LiveData<ResposeResult<R?>>> {
+            CallAdapter<R, LiveData<ResposeResult<R?>>> {
 
         override fun responseType(): Type {
             return responseType
@@ -61,7 +61,7 @@ class LiveDataCallAdapter private constructor(
         }
 
         private inner class LiveDataResponseCallCallback<T> internal constructor(private val liveData: MutableLiveData<ResposeResult<T?>>) :
-            Callback<T> {
+                Callback<T> {
 
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (call.isCanceled) return
@@ -84,22 +84,21 @@ class LiveDataCallAdapter private constructor(
 
         private fun asApiErrors(throwable: Throwable): ErrorBody? {
             // We had non-200 http error
-            when (throwable) {
-                is HttpException -> return handApiError(throwable)
-                is SocketTimeoutException -> return ErrorBody(ApiErrorCode.SOCKET_TIMEOUT, throwable.message)
-                is ConnectException -> return ErrorBody(ApiErrorCode.NETWORK_UNREACHABLE, throwable.message)
-                else -> return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
+            return when (throwable) {
+                is HttpException -> handApiError(throwable)
+                is SocketTimeoutException -> ErrorBody(ApiErrorCode.SOCKET_TIMEOUT, throwable.message)
+                is ConnectException -> ErrorBody(ApiErrorCode.NETWORK_UNREACHABLE, throwable.message)
+                else -> ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
             }
         }
 
         private fun handApiError(throwable: HttpException): ErrorBody? {
             val response = throwable.response()
             val body = response?.errorBody()
-            if (body == null) return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
+                    ?: return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
             try {
                 return RetrofitClient.get().responseBodyConverter<ErrorBody>(
-                    ErrorBody::class.java, arrayOfNulls(0)
-                ).convert(body)
+                        ErrorBody::class.java, arrayOfNulls(0)).convert(body)
             } catch (e: IOException) {
                 e.printStackTrace()
             } catch (e: RuntimeException) {

@@ -69,6 +69,8 @@ dependencies {
     implementation dep.recyclerview
     implementation dep.fresco
     implementation dep.design
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation project(path: ':platform')
     implementation project(path: ':data')
     implementation project(path: ':widget')

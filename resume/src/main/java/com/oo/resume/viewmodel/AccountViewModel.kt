@@ -24,6 +24,7 @@ class AccountViewModel : BaseViewModel() {
 
     private val accountRepo = RepositoryFactory.getRepository(AccountRepo::class.java)
     private val sessionRepo = RepositoryFactory.getRepository(SessionRepo::class.java)
+
     private val updateEvent = SingleLiveEvent<AccountDTO>()
     private val logoutEvent = SingleLiveEvent<Long>()
     private val accountResult: LiveData<ResposeResult<AccountDTO>>
@@ -31,17 +32,15 @@ class AccountViewModel : BaseViewModel() {
 
     init {
         accountResult = Transformations.switchMap(
-            updateEvent,
-            Function<AccountDTO, LiveData<ResposeResult<AccountDTO>>> { request ->
-                if (request == null) return@Function AbsentLiveData.create()
-                accountRepo.update(request)
-            })
-        logoutResult = Transformations.switchMap(
-            logoutEvent, Function {
-                sessionRepo.logout()
-                MutableLiveData(true)
-            }
-        )
+                updateEvent,
+                Function<AccountDTO, LiveData<ResposeResult<AccountDTO>>> { request ->
+                    if (request == null) return@Function AbsentLiveData.create()
+                    accountRepo.update(request)
+                })
+        logoutResult = Transformations.switchMap(logoutEvent) {
+            sessionRepo.logout()
+            MutableLiveData(true)
+        }
 
     }
 

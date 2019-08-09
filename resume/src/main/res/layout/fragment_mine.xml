@@ -1,154 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:focusableInTouchMode="true"
-        android:background="@android:color/white">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
 
     <ImageView
-            android:id="@+id/exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_exit"
-            android:padding="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-    <ImageView
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:padding="15dp"
-            android:src="@drawable/ic_save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/exit"
-            app:layout_constraintTop_toTopOf="@id/exit"/>
-
+        android:id="@+id/exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:src="@mipmap/ic_exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/avatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintTop_toBottomOf="@id/exit"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            app:roundAsCircle="true"
-            app:failureImageScaleType="fitCenter"
-            app:placeholderImage="@drawable/ic_empty_avatar"
-            app:placeholderImageScaleType="fitCenter"/>
+        android:id="@+id/avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        app:failureImageScaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exit"
+        app:placeholderImage="@drawable/ic_empty_avatar"
+        app:placeholderImageScaleType="fitCenter"
+        app:roundAsCircle="true" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:hint="请输入名字"
+        android:padding="18dp"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_grey"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@id/avatar" />
+
+    <TextView
+        android:id="@+id/sex_title"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:text="性别"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatar" />
+
+    <TextView
+        android:id="@+id/sex"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+
+        android:gravity="center_vertical|end"
+        android:textColor="@color/text_black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/sex_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sex_title"
+        app:layout_constraintTop_toTopOf="@id/sex_title"
+        tools:text="男" />
+
+    <TextView
+        android:id="@+id/age_title"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:text="年龄"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sex" />
+
     <EditText
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_black"
-            android:textStyle="bold"
-            android:padding="18dp"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            android:layout_marginStart="15dp"
-            app:layout_constraintTop_toTopOf="@id/avatar"
-            android:hint="请输入名字"
-            android:textSize="18sp"
-            android:textColorHint="@color/text_grey"
-            app:layout_constraintBottom_toBottomOf="@id/avatar"/>
-    <TextView
-            android:id="@+id/sex_title"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="性别"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/avatar"
-            android:layout_marginTop="25dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/text_black"
-            android:textSize="18sp"/>
+        android:id="@+id/age"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical|end"
+        android:hint="请输入年龄"
+        android:inputType="number"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_grey"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/age_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/age_title"
+        app:layout_constraintTop_toTopOf="@id/age_title" />
 
     <TextView
-            android:id="@+id/sex"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            tools:text="男"
-            android:gravity="center_vertical|end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sex_title"
-            app:layout_constraintBottom_toBottomOf="@id/sex_title"
-            android:drawableRight="@drawable/right_arrow"
-            android:textColor="@color/text_black"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@id/sex_title"
-            android:layout_marginStart="8dp"/>
+        android:id="@+id/phone_title"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:text="电话"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/age" />
 
     <TextView
-            android:id="@+id/age_title"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="年龄"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/sex"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/text_black"
-            android:textSize="18sp"/>
-
-    <EditText
-            android:id="@+id/age"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_vertical|end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/age_title"
-            app:layout_constraintBottom_toBottomOf="@id/age_title"
-            android:textColor="@color/text_black"
-            android:hint="请输入年龄"
-            android:inputType="number"
-            android:textSize="15sp"
-            android:textColorHint="@color/text_grey"
-            app:layout_constraintStart_toEndOf="@id/age_title"
-            android:layout_marginStart="8dp"/>
+        android:id="@+id/phone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical|end"
+        android:textColor="@color/text_black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/phone_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/phone_title"
+        app:layout_constraintTop_toTopOf="@id/phone_title"
+        tools:text="xxxxxxx" />
 
     <TextView
-            android:id="@+id/phone_title"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="电话"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/age"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/text_black"
-            android:textSize="18sp"/>
-
-    <TextView
-            android:id="@+id/phone"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_vertical|end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/phone_title"
-            app:layout_constraintBottom_toBottomOf="@id/phone_title"
-            android:textColor="@color/text_black"
-            android:textSize="15sp"
-            tools:text="xxxxxxx"
-            app:layout_constraintStart_toEndOf="@id/phone_title"
-            android:layout_marginStart="8dp"/>
-
-    <TextView
-            android:id="@+id/password"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:text="修改密码"
-            android:textStyle="bold"
-            android:gravity="center_vertical|end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phone"
-            android:drawableRight="@drawable/right_arrow"
-            android:textColor="@color/text_black"
-            android:textSize="15sp"
-            app:layout_constraintStart_toEndOf="@id/sex_title"
-            android:layout_marginStart="8dp"/>
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:drawableRight="@drawable/right_arrow"
+        android:gravity="center_vertical|end"
+        android:text="修改密码"
+        android:textColor="@color/text_black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sex_title"
+        app:layout_constraintTop_toBottomOf="@id/phone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

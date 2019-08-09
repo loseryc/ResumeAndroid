@@ -39,10 +39,9 @@ class AccountRepo : IRepository {
     private fun storeAccount(account: AccountDTO?) {
         val sp = SpUtil.get(ACCOUNT_SP_NAME, Context.MODE_PRIVATE)
         if (sp == null || account == null) return
-        this.account.postValue(account)
         val editor = sp.edit()
         editor.putString(KEY_ACCOUNT_INFO, Gson().toJson(account))
-        editor.commit()
+        if(editor.commit()) this.account.postValue(account)
     }
 
     private fun restoreAccount() {
@@ -54,8 +53,8 @@ class AccountRepo : IRepository {
 
     fun login(request: LoginRequest): LiveData<ResposeResult<AccountDTO>> {
         return Transformations.map(RetrofitClient
-            .getService(AccountService::class.java)
-            .login(request), Function { result ->
+                .getService(AccountService::class.java)
+                .login(request), Function { result ->
             if (result.isSuccess) storeAccount(result.data)
             setSession(result)
             result
@@ -64,8 +63,8 @@ class AccountRepo : IRepository {
 
     private fun setSession(result: ResposeResult<AccountDTO>?) {
         if (result == null || !result.isSuccess || result.data == null
-            || result.data.session_key.isNullOrEmpty()
-            || result.data.session_user.isNullOrEmpty()
+                || result.data.session_key.isNullOrEmpty()
+                || result.data.session_user.isNullOrEmpty()
         ) return
 
         sessionRepo.setSession(result.data.session_user, result.data.session_key)
@@ -74,23 +73,23 @@ class AccountRepo : IRepository {
 
     fun resetPassword(request: ResetPasswordRequest): LiveData<ResposeResult<Boolean>> {
         return RetrofitClient
-            .getService(AccountService::class.java)
-            .resetPassword(request)
+                .getService(AccountService::class.java)
+                .resetPassword(request)
     }
 
     fun update(request: AccountDTO): LiveData<ResposeResult<AccountDTO>> {
         return Transformations.map(RetrofitClient
-            .getService(AccountService::class.java)
-            .update(request), Function { result ->
+                .getService(AccountService::class.java)
+                .update(request)) { result ->
             if (result.isSuccess) storeAccount(result.data)
             result
-        })
+        }
     }
 
     fun regist(request: RegistRequest): LiveData<ResposeResult<AccountDTO>> {
         return Transformations.map(RetrofitClient
-            .getService(AccountService::class.java)
-            .regist(request), Function { result ->
+                .getService(AccountService::class.java)
+                .regist(request), Function { result ->
             if (result.isSuccess) storeAccount(result.data)
             setSession(result)
             result

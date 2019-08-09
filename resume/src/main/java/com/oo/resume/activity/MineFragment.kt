@@ -7,10 +7,12 @@ import com.chenenyu.router.Router
 import com.oo.platform.view.BaseFragment
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
+import com.oo.resume.activity.router.RouteUrl
 import com.oo.resume.data.response.AccountDTO
 import com.oo.resume.viewmodel.AccountViewModel
 import com.oo.widget.BottomDialog
 import com.oo.widget.OoDialog
+import com.oo.widget.WriteContentDialog
 import kotlinx.android.synthetic.main.fragment_mine.*
 
 /**
@@ -42,37 +44,45 @@ class MineFragment : BaseFragment() {
     }
 
     private fun setListener() {
-        save.setOnClickListener(View.OnClickListener { viewModel.update(getUIAccount()) })
-        sex.setOnClickListener(View.OnClickListener {
+
+        sex.setOnClickListener {
             BottomDialog(context)
-                .builder()
-                .setTitle("请选择性别")
-                .setCancelable(false)
-                .setCanceledOnTouchOutside(true)
-                .addSheetItem("男", BottomDialog.OnSheetItemClickListener { sex.text = "男" })
-                .addSheetItem("女", BottomDialog.OnSheetItemClickListener { sex.text = "女" }).show()
-        })
+                    .builder()
+                    .setTitle("请选择性别")
+                    .setCancelable(false)
+                    .setCanceledOnTouchOutside(true)
+                    .addSheetItem("男") { sex.text = "男" }
+                    .addSheetItem("女") { sex.text = "女" }.show()
+        }
         password.setOnClickListener { Router.build(RouteUrl.RESET_PASSWORD_PAGE).go(this) }
         exit.setOnClickListener { viewModel.logout() }
+        tv_name.setOnClickListener {
+            WriteContentDialog.Builder()
+                    .setContentText(tv_name.text)
+                    .onConfirm { text ->
+                        tv_name.setText(text)
+                        viewModel.update(getUIAccount())
+                    }.show(activity)
+        }
     }
 
     private fun getUIAccount(): AccountDTO {
         val account = AccountDTO()
-        account.name = name.text.toString()
+        account.name = tv_name.text.toString()
         account.age = age.text.toString().toIntOrNull()
         account.sex = if (sex.text == "男") 0 else 1
         return account
     }
 
     private fun observe() {
-        viewModel.getAccountInfo().observe(this, Observer { refreshView(it) })
+        viewModel.getAccountInfo().observe(viewLifecycleOwner, Observer { refreshView(it) })
 
-        viewModel.getLogoutResult().observe(this, Observer {
+        viewModel.getLogoutResult().observe(viewLifecycleOwner, Observer {
             Router.build(RouteUrl.SIGNIN_PAGE).go(this)
             activity?.finish()
         })
 
-        viewModel.getUpdateResult().observe(this, Observer { result ->
+        viewModel.getUpdateResult().observe(viewLifecycleOwner, Observer { result ->
             if (result == null) return@Observer
             if (result.isLoading) {
                 loading.show()
@@ -89,7 +99,7 @@ class MineFragment : BaseFragment() {
     private fun refreshView(account: AccountDTO?) {
         if (account == null) return
         avatar.setImageURI(account.avatar)
-        name.setText(account.name)
+        tv_name.text = account.name
         sex.text = if (account.sex == 0) "男" else "女"
         age.setText(account.age.toString())
         phone.text = account.phone

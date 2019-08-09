@@ -5,6 +5,7 @@ import android.net.Uri
 import com.chenenyu.router.RouteInterceptor
 import com.chenenyu.router.RouteResponse
 import com.oo.platform.repo.RepositoryFactory
+import com.oo.resume.activity.router.RouteUrl
 import com.oo.resume.repository.SessionRepo
 
 /**
