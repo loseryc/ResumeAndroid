@@ -2,8 +2,8 @@ package com.oo.platform.repo
 
 
 open class BaseResult<Data, Error>(
-    @param:StatusValue @field:StatusValue val status: Int,
-    val data: Data?, val errors: Error?
+        @param:StatusValue @field:StatusValue val status: Int,
+        val data: Data?, val errors: Error?
 ) {
 
     val isSuccess: Boolean
@@ -20,11 +20,11 @@ open class BaseResult<Data, Error>(
                 '}'.toString()
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
 
-        val result = o as BaseResult<*, *>?
+        val result = other as BaseResult<*, *>?
 
         if (status != result!!.status) return false
         if (if (data != null) data != result.data else result.data != null) return false

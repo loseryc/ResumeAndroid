@@ -3,7 +3,7 @@ package com.oo.platform.repo
 import androidx.lifecycle.LiveData
 
 
-class AbsentLiveData : LiveData<Any>() {
+class AbsentLiveData<T> : LiveData<T>() {
     init {
         postValue(null)
     }
@@ -11,7 +11,7 @@ class AbsentLiveData : LiveData<Any>() {
     companion object {
 
         fun <T> create(): LiveData<T> {
-            return AbsentLiveData() as LiveData<T>
+            return AbsentLiveData()
         }
     }
 }

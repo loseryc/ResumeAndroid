@@ -8,6 +8,7 @@ import com.chenenyu.router.annotation.Route
 import com.oo.platform.view.BaseActivity
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
+import com.oo.resume.activity.router.RouteUrl
 import com.oo.resume.viewmodel.ResetPasswordViewModel
 import com.oo.widget.OoDialog
 import kotlinx.android.synthetic.main.activity_reset_password.*

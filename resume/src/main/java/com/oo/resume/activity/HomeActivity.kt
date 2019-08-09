@@ -9,7 +9,9 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.chenenyu.router.annotation.Route
 import com.oo.platform.view.BaseActivity
 import com.oo.resume.R
+import com.oo.resume.activity.router.RouteUrl
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlin.system.exitProcess
 
 /**
  *  $author yangchao
@@ -20,24 +22,24 @@ import kotlinx.android.synthetic.main.activity_home.*
 @Route(RouteUrl.HOME_PAGE)
 class HomeActivity : BaseActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
     }
 
     private fun initView() {
-        pager.adapter = HomeFragmetPageAdapter(supportFragmentManager)
+        pager.adapter = HomeFragmentPageAdapter(supportFragmentManager)
         tabs.setupWithViewPager(pager)
         Page.values().forEachIndexed { index, page -> tabs.getTabAt(index)?.text = page.title }
+
     }
 
-    inner class HomeFragmetPageAdapter(manager: FragmentManager) :
-        FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class HomeFragmentPageAdapter(manager: FragmentManager) :
+            FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
-            when (Page.getPage(position)) {
-                Page.ResumeList -> return ResumeListFragment()
-                Page.Mine -> return MineFragment()
+            return when (Page.getPage(position)) {
+                Page.ResumeList -> ResumeListFragment()
+                Page.Mine -> MineFragment()
                 else -> throw IllegalArgumentException("Did not handle this page enum!!!")
             }
         }
@@ -51,10 +53,10 @@ class HomeActivity : BaseActivity() {
     private var mExitPressed: Boolean = false
     override fun onBackPressed() {
         if (mExitPressed) {
-            System.exit(0)
+            exitProcess(0)
         } else {
             mExitPressed = true
-            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show()
 
             object : CountDownTimer(2000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -74,7 +76,7 @@ class HomeActivity : BaseActivity() {
 
         companion object {
             fun getPage(index: Int): Page? {
-                return Page.values().find { it.index == index }
+                return values().find { it.index == index }
             }
         }
     }

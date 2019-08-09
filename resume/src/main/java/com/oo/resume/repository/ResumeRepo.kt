@@ -17,8 +17,13 @@ class ResumeRepo : IRepository {
 
     fun getResumeList(): LiveData<ResposeResult<List<ResumeDTO>>> {
         return RetrofitClient
-            .getService(ResumeService::class.java)
-            .getResumeList()
+                .getService(ResumeService::class.java)
+                .getResumeList()
+    }
+    fun getResumeDetail(resumeId:String): LiveData<ResposeResult<ResumeDTO>> {
+        return RetrofitClient
+                .getService(ResumeService::class.java)
+                .getResumeDetail(resumeId)
     }
 
 }

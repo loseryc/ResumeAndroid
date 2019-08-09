@@ -7,7 +7,6 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.protobuf.ProtoConverterFactory
 
 /**
  * Created by Lynn on 2018/10/12.
@@ -26,17 +25,17 @@ object RetrofitClient {
 
     private fun createRetrofitInstance(): Retrofit.Builder {
         val client = OkHttpClient().newBuilder()
-            .addInterceptor(SessionInterceptor())
-            .addInterceptor(ResponseInterceptor())
-            .build()
+                .addInterceptor(SessionInterceptor())
+                .addInterceptor(ResponseInterceptor())
+                .build()
         return Retrofit.Builder()
-            .client(client)
-            .baseUrl(BuildConfig.API_HOST)
+                .client(client)
+                .baseUrl(BuildConfig.API_HOST)
 
 //            .addConverterFactory(ProtoConverterFactory.create())
-            .addConverterFactory(ResponseResultFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(LiveDataCallAdapter.create(Schedulers.io(), AndroidSchedulers.mainThread()))
+                .addConverterFactory(ResponseResultFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(LiveDataCallAdapter.create(Schedulers.io(), AndroidSchedulers.mainThread()))
     }
 
     private val mServicePools = ArrayMap<Class<*>, Any>()

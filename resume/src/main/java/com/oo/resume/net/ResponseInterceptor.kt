@@ -3,7 +3,7 @@ package com.oo.resume.net
 import com.chenenyu.router.Router
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.resume.ResumeApplication
-import com.oo.resume.activity.RouteUrl
+import com.oo.resume.activity.router.RouteUrl
 import com.oo.resume.repository.SessionRepo
 import okhttp3.Interceptor
 import okhttp3.Response

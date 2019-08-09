@@ -9,6 +9,7 @@ import com.chenenyu.router.annotation.Route
 import com.oo.platform.view.BaseActivity
 import com.oo.platform.viewmodel.ViewModelBinder
 import com.oo.resume.R
+import com.oo.resume.activity.router.RouteUrl
 import com.oo.resume.constance.Regex
 import com.oo.resume.data.request.LoginRequest
 import com.oo.resume.data.request.RegistRequest
