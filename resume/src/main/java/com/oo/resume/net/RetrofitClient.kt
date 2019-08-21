@@ -1,6 +1,5 @@
 package com.oo.resume.net
 
-import android.util.ArrayMap
 import com.oo.resume.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -8,67 +7,30 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * Created by Lynn on 2018/10/12.
- */
 object RetrofitClient {
-    private var sRetrofitInstance: Retrofit? = null
+    private var sRetrofitInstance: Retrofit
 
-    @Synchronized
-    fun get(): Retrofit {
-        if (sRetrofitInstance == null) {
-            sRetrofitInstance = createRetrofitInstance().build()
-        }
-        return sRetrofitInstance!!
-    }
+    init {
 
-
-    private fun createRetrofitInstance(): Retrofit.Builder {
         val client = OkHttpClient().newBuilder()
-                .addInterceptor(SessionInterceptor())
-                .addInterceptor(ResponseInterceptor())
-                .build()
-        return Retrofit.Builder()
-                .client(client)
-                .baseUrl(BuildConfig.API_HOST)
+            .addInterceptor(SessionInterceptor())
+            .addInterceptor(ResponseInterceptor())
+            .build()
 
-//            .addConverterFactory(ProtoConverterFactory.create())
-                .addConverterFactory(ResponseResultFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(LiveDataCallAdapter.create(Schedulers.io(), AndroidSchedulers.mainThread()))
+        sRetrofitInstance = Retrofit.Builder()
+            .client(client)
+            .baseUrl(BuildConfig.API_HOST)
+            .addConverterFactory(ResponseResultFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapter.create(Schedulers.io(), AndroidSchedulers.mainThread())).build()
     }
 
-    private val mServicePools = ArrayMap<Class<*>, Any>()
+    fun get(): Retrofit {
+        return sRetrofitInstance
+    }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T> getService(clazz: Class<T>): T {
-        var repository: T? = null
-        synchronized(RetrofitClient::class.java) {
-            if (mServicePools.containsKey(clazz)) {
-                repository = mServicePools[clazz] as T?
-            }
-            if (repository == null) {
-                repository = createService(clazz)
-                putService(clazz, repository)
-            }
-        }
-        return repository as T
-    }
-
-    private fun <T> putService(clazz: Class<T>?): RetrofitClient {
-        return putService(clazz, null)
-    }
-
-    private fun <T> putService(clazz: Class<T>?, repository: T?): RetrofitClient {
-        if (clazz == null) {
-            throw NullPointerException("repository class can not be null: ")
-        }
-        mServicePools[clazz] = repository
-        return this
-    }
-
-    private fun <T> createService(clazz: Class<T>): T {
-        return RetrofitClient.get().create(clazz)
+        return get().create(clazz)
     }
 
 }
