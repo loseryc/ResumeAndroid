@@ -14,8 +14,9 @@ import java.net.SocketTimeoutException
 
 
 class LiveDataCallAdapter private constructor(
-        val subscribWorker: Scheduler.Worker,
-        val observeWorker: Scheduler.Worker) : CallAdapter.Factory() {
+    val subscribWorker: Scheduler.Worker,
+    val observeWorker: Scheduler.Worker
+) : CallAdapter.Factory() {
 
     companion object {
 
@@ -46,24 +47,24 @@ class LiveDataCallAdapter private constructor(
         }
     }
 
-    inner class LiveDataResponseCallAdapter<R> internal constructor(private val responseType: Type) :
-            CallAdapter<R, LiveData<ResposeResult<R?>>> {
+    inner class LiveDataResponseCallAdapter<ResponseBody> internal constructor(private val responseType: Type) :
+        CallAdapter<ResponseBody, LiveData<ResposeResult<ResponseBody>>> {
 
         override fun responseType(): Type {
             return responseType
         }
 
-        override fun adapt(call: Call<R>): LiveData<ResposeResult<R?>> {
-            val liveDataResponse = MutableLiveData<ResposeResult<R?>>()
+        override fun adapt(call: Call<ResponseBody>): LiveData<ResposeResult<ResponseBody>> {
+            val liveDataResponse = MutableLiveData<ResposeResult<ResponseBody>>()
             liveDataResponse.postValue(ResposeResult.loading())
             subscribWorker.schedule { call.enqueue(LiveDataResponseCallCallback(liveDataResponse)) }
             return liveDataResponse
         }
 
-        private inner class LiveDataResponseCallCallback<T> internal constructor(private val liveData: MutableLiveData<ResposeResult<T?>>) :
-                Callback<T> {
+        private inner class LiveDataResponseCallCallback internal constructor(private val liveData: MutableLiveData<ResposeResult<ResponseBody>>) :
+            Callback<ResponseBody> {
 
-            override fun onResponse(call: Call<T>, response: Response<T>) {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (call.isCanceled) return
                 observeWorker.schedule {
                     if (response.isSuccessful) {
@@ -74,7 +75,7 @@ class LiveDataCallAdapter private constructor(
                 }
             }
 
-            override fun onFailure(call: Call<T>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 if (call.isCanceled) return
                 observeWorker.schedule {
                     liveData.postValue(ResposeResult.failure(asApiErrors(t)))
@@ -95,10 +96,11 @@ class LiveDataCallAdapter private constructor(
         private fun handApiError(throwable: HttpException): ErrorBody? {
             val response = throwable.response()
             val body = response?.errorBody()
-                    ?: return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
+                ?: return ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
             try {
                 return RetrofitClient.get().responseBodyConverter<ErrorBody>(
-                        ErrorBody::class.java, arrayOfNulls(0)).convert(body)
+                    ErrorBody::class.java, arrayOfNulls(0)
+                ).convert(body)
             } catch (e: IOException) {
                 e.printStackTrace()
             } catch (e: RuntimeException) {

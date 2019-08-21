@@ -10,28 +10,28 @@ import com.oo.resume.data.response.ErrorBody
  *  $date   2019-06-12 11:56
  *  $describe
  */
-class ResposeResult<T>(status: Int, data: T?, errors: ErrorBody?) : BaseResult<T, ErrorBody>(status, data, errors) {
+class ResposeResult<T>(status: Int, responseBody: T?, errors: ErrorBody?) : BaseResult<T, ErrorBody>(status, responseBody, errors) {
 
     companion object {
 
-        fun <T> success(data: T?): ResposeResult<T?> {
-            return ResposeResult(StatusValue.SUCCESS, data, null)
+        fun <T> success(responseBody: T?): ResposeResult<T> {
+            return ResposeResult(StatusValue.SUCCESS, responseBody, null)
         }
 
-        fun <T> loading(): ResposeResult<T?> {
+        fun <T> loading(): ResposeResult<T> {
             return loading(null)
         }
 
-        fun <T> loading(data: T?): ResposeResult<T?> {
-            return ResposeResult(StatusValue.LOADING, data, null)
+        fun <T> loading(responseBody: T?): ResposeResult<T> {
+            return ResposeResult(StatusValue.LOADING, responseBody, null)
         }
 
-        fun <T> failure(errors: ErrorBody?): ResposeResult<T?> {
+        fun <T> failure(errors: ErrorBody?): ResposeResult<T> {
             return failure(null, errors)
         }
 
-        fun <T> failure(data: T?, errors: ErrorBody?): ResposeResult<T?> {
-            return ResposeResult(StatusValue.FAILURE, data, errors)
+        fun <T> failure(responseBody: T?, errors: ErrorBody?): ResposeResult<T> {
+            return ResposeResult(StatusValue.FAILURE, responseBody, errors)
         }
     }
 }
