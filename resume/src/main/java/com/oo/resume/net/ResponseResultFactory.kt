@@ -24,10 +24,10 @@ class ResponseResultFactory private constructor() : Converter.Factory() {
         type: Type, annotations: Array<Annotation>,
         retrofit: Retrofit
     ): Converter<ResponseBody, *> {
-        if (type is ParameterizedType && type.rawType === ResposeResult::class.java) {
-            return retrofit.nextResponseBodyConverter<Any>(this, type.actualTypeArguments[0], annotations)
+        if (type is ParameterizedType && type.rawType == ResposeResult::class.java) {
+            return retrofit.nextResponseBodyConverter<Nothing>(this, type.actualTypeArguments[0], annotations)
         }
-        return retrofit.nextResponseBodyConverter<Any>(this, type, annotations)
+        return retrofit.nextResponseBodyConverter<Nothing>(this, type, annotations)
     }
 
     companion object {
