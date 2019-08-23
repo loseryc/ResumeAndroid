@@ -13,19 +13,26 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 
 
-class LiveDataCallAdapter private constructor(
+class LiveDataCallFactory private constructor(
     val subscribWorker: Scheduler.Worker,
     val observeWorker: Scheduler.Worker
 ) : CallAdapter.Factory() {
 
     companion object {
 
-        fun create(subscribScheduler: Scheduler, observeScheduler: Scheduler): LiveDataCallAdapter {
-            return LiveDataCallAdapter(subscribScheduler.createWorker(), observeScheduler.createWorker())
+        fun create(subscribScheduler: Scheduler, observeScheduler: Scheduler): LiveDataCallFactory {
+            return LiveDataCallFactory(
+                subscribScheduler.createWorker(),
+                observeScheduler.createWorker()
+            )
         }
     }
 
-    public override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
+    public override fun get(
+        returnType: Type,
+        annotations: Array<Annotation>,
+        retrofit: Retrofit
+    ): CallAdapter<*, *>? {
         if (getRawType(returnType) != LiveData::class.java) {
             return null
         }
@@ -43,7 +50,43 @@ class LiveDataCallAdapter private constructor(
 
                 LiveDataResponseCallAdapter<Any>(responseType)
             }
-            else -> null
+            else -> LiveDataCallAdapter<Any>(responseType)
+        }
+    }
+
+    inner class LiveDataCallAdapter<ResponseBody> internal constructor(private val responseType: Type) :
+        CallAdapter<ResponseBody, LiveData<ResponseBody>> {
+
+        override fun responseType(): Type {
+            return responseType
+        }
+
+        override fun adapt(call: Call<ResponseBody>): LiveData<ResponseBody> {
+            val liveDataResponse = MutableLiveData<ResponseBody>()
+            subscribWorker.schedule { call.enqueue(LiveDataCallCallback(liveDataResponse)) }
+            return liveDataResponse
+        }
+
+        private inner class LiveDataCallCallback internal constructor(private val liveData: MutableLiveData<ResponseBody>) :
+            Callback<ResponseBody> {
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (call.isCanceled) return
+                observeWorker.schedule {
+                    if (response.isSuccessful) {
+                        liveData.postValue(response.body())
+                    } else {
+                        onFailure(call, HttpException(response))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                if (call.isCanceled) return
+                observeWorker.schedule {
+                    liveData.postValue(null)
+                }
+            }
         }
     }
 
@@ -87,8 +130,14 @@ class LiveDataCallAdapter private constructor(
             // We had non-200 http error
             return when (throwable) {
                 is HttpException -> handApiError(throwable)
-                is SocketTimeoutException -> ErrorBody(ApiErrorCode.SOCKET_TIMEOUT, throwable.message)
-                is ConnectException -> ErrorBody(ApiErrorCode.NETWORK_UNREACHABLE, throwable.message)
+                is SocketTimeoutException -> ErrorBody(
+                    ApiErrorCode.SOCKET_TIMEOUT,
+                    throwable.message
+                )
+                is ConnectException -> ErrorBody(
+                    ApiErrorCode.NETWORK_UNREACHABLE,
+                    throwable.message
+                )
                 else -> ErrorBody(ApiErrorCode.UNKNOW, throwable.message)
             }
         }

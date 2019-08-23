@@ -22,7 +22,7 @@ object RetrofitClient {
             .baseUrl(BuildConfig.API_HOST)
             .addConverterFactory(ResponseResultFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(LiveDataCallAdapter.create(Schedulers.io(), AndroidSchedulers.mainThread())).build()
+            .addCallAdapterFactory(LiveDataCallFactory.create(Schedulers.io(), AndroidSchedulers.mainThread())).build()
     }
 
     fun get(): Retrofit {
