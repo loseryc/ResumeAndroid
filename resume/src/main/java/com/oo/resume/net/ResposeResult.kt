@@ -1,6 +1,5 @@
 package com.oo.resume.net
 
-import com.oo.platform.repo.BaseResult
 import com.oo.platform.repo.StatusValue
 import com.oo.resume.data.response.ErrorBody
 
@@ -10,27 +9,27 @@ import com.oo.resume.data.response.ErrorBody
  *  $date   2019-06-12 11:56
  *  $describe
  */
-class ResposeResult<T>(status: Int, responseBody: T?, errors: ErrorBody?) : BaseResult<T, ErrorBody>(status, responseBody, errors) {
-
+class ResposeResult<Data>(status: Int, responseBody: Data?, errors: ErrorBody?) :
+    ResposeResultWithErrorType<Data, ErrorBody>(status, responseBody, errors) {
     companion object {
 
-        fun <T> success(responseBody: T?): ResposeResult<T> {
+        fun <Data> success(responseBody: Data?): ResposeResult<Data> {
             return ResposeResult(StatusValue.SUCCESS, responseBody, null)
         }
 
-        fun <T> loading(): ResposeResult<T> {
+        fun <Data> loading(): ResposeResult<Data> {
             return loading(null)
         }
 
-        fun <T> loading(responseBody: T?): ResposeResult<T> {
+        fun <Data> loading(responseBody: Data?): ResposeResult<Data> {
             return ResposeResult(StatusValue.LOADING, responseBody, null)
         }
 
-        fun <T> failure(errors: ErrorBody?): ResposeResult<T> {
+        fun <Data> failure(errors: ErrorBody?): ResposeResult<Data> {
             return failure(null, errors)
         }
 
-        fun <T> failure(responseBody: T?, errors: ErrorBody?): ResposeResult<T> {
+        fun <Data> failure(responseBody: Data?, errors: ErrorBody?): ResposeResult<Data> {
             return ResposeResult(StatusValue.FAILURE, responseBody, errors)
         }
     }

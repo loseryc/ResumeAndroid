@@ -20,7 +20,6 @@ object RetrofitClient {
         sRetrofitInstance = Retrofit.Builder()
             .client(client)
             .baseUrl(BuildConfig.API_HOST)
-            .addConverterFactory(ResponseResultFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallFactory.create(Schedulers.io(), AndroidSchedulers.mainThread())).build()
     }
