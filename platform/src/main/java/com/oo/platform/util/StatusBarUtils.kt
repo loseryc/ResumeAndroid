@@ -7,10 +7,10 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
 import android.os.Environment
-import androidx.annotation.ColorInt
-import androidx.core.view.ViewCompat
 import android.view.*
 import android.widget.FrameLayout
+import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -191,7 +191,7 @@ object StatusBarUtils {
             val contentView = window.findViewById<View>(Window.ID_ANDROID_CONTENT) as ViewGroup
             val firstChild = contentView.getChildAt(0)
             if (firstChild != null) {
-                ViewCompat.setFitsSystemWindows(firstChild, false)
+                firstChild.fitsSystemWindows = false
                 ViewCompat.requestApplyInsets(firstChild)
             }
         }
@@ -232,8 +232,8 @@ object StatusBarUtils {
                 firstChild.layoutParams = lp
                 firstChild.tag = TAG_MARGIN_ADDED
             }
+            firstChild.fitsSystemWindows = false
 
-            ViewCompat.setFitsSystemWindows(firstChild, false)
         }
 
         companion object {

@@ -35,11 +35,11 @@ android {
     productFlavors {
         PRO {
             dimension = 'API_ENV'
-            buildConfigField('String','API_HOST','"http://134.175.147.149"')
+            buildConfigField('String', 'API_HOST', '"http://134.175.147.149"')
         }
         DEV {
             dimension = 'API_ENV'
-            buildConfigField('String','API_HOST','"http://172.25.165.242"')
+            buildConfigField('String', 'API_HOST', '"http://172.25.165.242"')
         }
     }
     compileOptions {
@@ -69,6 +69,7 @@ dependencies {
     implementation dep.recyclerview
     implementation dep.fresco
     implementation dep.design
+    implementation dep.cymchad_baseadapter
     implementation project(path: ':platform')
     implementation project(path: ':data')
     implementation project(path: ':widget')

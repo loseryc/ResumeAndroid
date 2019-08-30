@@ -8,6 +8,7 @@ import com.oo.platform.repo.AbsentLiveData
 import com.oo.platform.repo.RepositoryFactory
 import com.oo.platform.viewmodel.BaseViewModel
 import com.oo.platform.viewmodel.SingleLiveEvent
+import com.oo.resume.data.response.BaseInfoDTO
 import com.oo.resume.data.response.ResumeDTO
 import com.oo.resume.net.ResposeResult
 import com.oo.resume.repository.ResumeRepo
@@ -26,7 +27,7 @@ class ResumeListViewModel : BaseViewModel() {
     private val resumeList: LiveData<ResposeResult<List<ResumeDTO>>>
 
     private val resumeDetail: LiveData<ResposeResult<ResumeDTO>>
-    private val resumeDetailEvent = SingleLiveEvent<String>()
+    private val resumeDetailEvent = SingleLiveEvent<Long?>()
 
     init {
 
@@ -40,7 +41,7 @@ class ResumeListViewModel : BaseViewModel() {
         resumeDetail = Transformations.switchMap(
                 resumeDetailEvent,
                 Function { resumeDetailEvent ->
-                    if (resumeDetailEvent.isNullOrBlank()) return@Function AbsentLiveData.create()
+                    if (resumeDetailEvent == null) return@Function AbsentLiveData.create()
                     resumeRepo.getResumeDetail(resumeDetailEvent)
                 })
 
@@ -51,17 +52,35 @@ class ResumeListViewModel : BaseViewModel() {
         refreshEvent.value = ""
     }
 
+    fun resumeEquals(f: ResumeDTO?, s: ResumeDTO?): Boolean {
+        if (f == null) return false
+        if (s == null) return false
+
+        if (f.id != s.id) return false
+
+        return true
+    }
+
+
     @MainThread
-    fun resumeDetail(resumeId: String?) {
+    fun resumeDetail(resumeId: Long?) {
         resumeDetailEvent.value = resumeId
     }
 
-    fun getResumeDetail():LiveData<ResposeResult<ResumeDTO>>{
+    fun getResumeDetail(): LiveData<ResposeResult<ResumeDTO>> {
         return resumeDetail
     }
 
     fun getResumeList(): LiveData<ResposeResult<List<ResumeDTO>>> {
         return resumeList
+    }
+
+    fun updateLocalBaseInfo(baseInfo:BaseInfoDTO){
+        resumeRepo.getBaseInfo().value = baseInfo
+    }
+
+    fun getLocalBaseInfo():LiveData<BaseInfoDTO>{
+        return resumeRepo.getBaseInfo()
     }
 
 }

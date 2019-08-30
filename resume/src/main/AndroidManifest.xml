@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".activity.ResumeDetailActivity"/>
+        <activity android:name=".activity.EditBasicProfileActivity"/>
+        <activity android:name=".activity.ResumeDetailActivity" />
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"

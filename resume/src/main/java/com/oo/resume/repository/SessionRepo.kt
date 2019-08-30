@@ -5,7 +5,6 @@ import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.oo.platform.repo.IRepository
 import com.oo.resume.util.SpUtil
 
@@ -27,14 +26,12 @@ class SessionRepo : IRepository {
     }
 
     private fun restoreSession() {
-        val sp = SpUtil.get(SESSION_SP_NAME, Context.MODE_PRIVATE)
-        if (sp == null) return
+        val sp = SpUtil.get(SESSION_SP_NAME, Context.MODE_PRIVATE) ?: return
         setSession(sp.getString(SP_KEY_SESSION_USER, null), sp.getString(SP_KEY_SESSION_KEY, null))
     }
 
     private fun storeSession(sessionUser: String?, sessionKey: String?) {
-        val sp = SpUtil.get(SESSION_SP_NAME, Context.MODE_PRIVATE)
-        if (sp == null) return
+        val sp = SpUtil.get(SESSION_SP_NAME, Context.MODE_PRIVATE) ?: return
         val editor = sp.edit()
         editor.putString(SP_KEY_SESSION_USER, sessionUser)
         editor.putString(SP_KEY_SESSION_KEY, sessionKey)
@@ -42,9 +39,9 @@ class SessionRepo : IRepository {
     }
 
     private fun transformations() {
-        loginStatue.addSource(sessionUser, Observer { _ ->
+        loginStatue.addSource(sessionUser) {
             loginStatue.value = isLogin()
-        })
+        }
     }
 
     public fun logout(){

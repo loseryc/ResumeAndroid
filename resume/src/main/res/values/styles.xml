@@ -50,4 +50,13 @@
         <item name="android:scaleType">fitCenter</item>
     </style>
 
+    <style name="CustomDividerStyle">
+        <item name="android:layout_marginStart">13dp</item>
+        <item name="android:layout_marginEnd">13dp</item>
+        <item name="android:background">@color/divider_grey</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+
+
 </resources>

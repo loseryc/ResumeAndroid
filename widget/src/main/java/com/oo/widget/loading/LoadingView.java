@@ -3,9 +3,10 @@ package com.oo.widget.loading;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 
-public class LoadingView extends ImageView {
+import androidx.appcompat.widget.AppCompatImageView;
+
+public class LoadingView extends AppCompatImageView {
     private LoadingDrawable mLoadingDrawable;
 
     public LoadingView(Context context) {

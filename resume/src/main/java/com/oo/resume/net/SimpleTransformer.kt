@@ -7,7 +7,6 @@ import io.reactivex.schedulers.Schedulers
 
 class SimpleTransformer private constructor() {
 
-
     companion object {
 
         fun <T> observableIo2Main(): ObservableTransformer<T, T> {

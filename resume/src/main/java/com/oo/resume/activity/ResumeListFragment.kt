@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chenenyu.router.Router
 import com.oo.platform.view.BaseFragment
@@ -42,6 +44,7 @@ class ResumeListFragment : BaseFragment() {
     private fun initView() {
         adapter = ResumeAdapter()
         rv_resume.adapter = adapter
+        rv_resume.itemAnimator = DefaultItemAnimator()
     }
 
     private fun observe() {
@@ -82,8 +85,29 @@ class ResumeListFragment : BaseFragment() {
         }
 
         fun setData(resumes: List<ResumeDTO>?) {
+            val diffUtil = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                    val oldItem = this@ResumeAdapter.reusmes?.get(oldItemPosition)
+                    val newItem = reusmes?.get(newItemPosition)
+                    return oldItem?.id?.equals(newItem?.id) ?: false
+                }
+
+                override fun getOldListSize(): Int {
+                    return this@ResumeAdapter.reusmes?.size ?: 0
+                }
+
+                override fun getNewListSize(): Int {
+                    return resumes?.size ?: 0
+                }
+
+                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                    val oldItem = this@ResumeAdapter.reusmes?.get(oldItemPosition)
+                    val newItem = reusmes?.get(newItemPosition)
+                    return oldItem?.equals(newItem) ?: false
+                }
+            })
+            diffUtil.dispatchUpdatesTo(this)
             this.reusmes = resumes
-            notifyDataSetChanged()
         }
 
         override fun getItemCount(): Int {
@@ -105,17 +129,17 @@ class ResumeListFragment : BaseFragment() {
             if ((resume.exeprience ?: 0) > 0) {
                 baseProfile.append(resume.exeprience).append("年经验")
             }
-            if ((resume.account?.age ?:0) > 0){
+            if ((resume.account?.age ?: 0) > 0) {
                 baseProfile.append(" · ").append(resume.account?.age).append("岁")
             }
             if (!resume.education.isNullOrEmpty()) {
                 baseProfile.append(" · ").append(resume.education?.get(0)?.record)
             }
             itemView.tv_base_profile.text = baseProfile.toString()
-            itemView.sdv_avatar?.setImageURI(resume.account?.avatar)
+            itemView.sdv_avatar?.setImageURI(resume.baseInfo?.avatar)
             itemView.setOnClickListener {
                 Router.build(RESUME_DETAIL_PAGE)
-                        .with(KEY_RESUME_ID,resume.id)
+                        .with(KEY_RESUME_ID, resume.id)
                         .go(this@ResumeListFragment)
             }
         }

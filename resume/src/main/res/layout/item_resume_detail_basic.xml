@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_basic_wrapper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white">
@@ -15,7 +16,6 @@
         android:textStyle="bold"
         android:textColor="@color/text_black"
         android:drawablePadding="5dp"
-        android:drawableEnd="@mipmap/icon_edit"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
         android:gravity="center_vertical"
@@ -26,28 +26,20 @@
     <TextView
         android:id="@+id/tv_company_with_position"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/text_grey"
         android:paddingEnd="0dp"
         android:paddingStart="15dp"
+        android:textSize="15dp"
+        android:text="编辑基本信息"
+        android:drawablePadding="10dp"
+        android:drawableStart="@mipmap/icon_edit"
         android:gravity="center_vertical"
         app:layout_constraintTop_toBottomOf="@id/tv_name"
-        app:layout_constraintBottom_toTopOf="@+id/tv_base_profile"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="美团点评/Android"/>
-
-    <TextView
-        android:id="@+id/tv_base_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:textColor="@color/text_grey"
-        android:paddingStart="15dp"
-        android:paddingEnd="0dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/tv_company_with_position"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="1000年经验 · 220岁 · 本科"/>
+        tools:text="编辑基本信息"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_avatar"

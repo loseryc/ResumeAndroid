@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".activity.EditBasicProfileActivity">
+
+    <include layout="@layout/layout_normal_title_bar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider_grey" />
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        app:actualImageScaleType="centerCrop"
+        app:placeholderImage="@drawable/ic_empty_avatar"
+        app:placeholderImageScaleType="centerCrop"
+        app:roundAsCircle="true"
+        app:roundingBorderColor="@color/divider_grey"
+        app:roundingBorderWidth="1dp" />
+
+    <TextView
+        android:textColor="@color/text_grey"
+        android:gravity="center"
+        android:text="修改头像"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <include
+        android:id="@+id/ll_name"
+        layout="@layout/layout_edit_profile" />
+
+
+    <include
+        android:id="@+id/ll_age"
+        layout="@layout/layout_edit_profile" />
+
+
+    <include
+        android:id="@+id/ll_sex"
+        layout="@layout/layout_edit_profile" />
+
+    <View style="@style/CustomDividerStyle" />
+
+    <include
+        android:id="@+id/ll_phone"
+        layout="@layout/layout_edit_profile" />
+
+
+    <include
+        android:id="@+id/ll_email"
+        layout="@layout/layout_edit_profile" />
+
+
+</LinearLayout>

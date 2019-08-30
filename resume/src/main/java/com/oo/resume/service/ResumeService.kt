@@ -14,6 +14,6 @@ interface ResumeService {
 
 
     @GET(ResumeUrl.PREFIX + ResumeUrl.PATH_DETAIL)
-    fun getResumeDetail(@Path(ResumeUrl.PARAMS_RESUME_ID) resumeId: String): LiveData<ResposeResult<ResumeDTO>>
+    fun getResumeDetail(@Path(ResumeUrl.PARAMS_RESUME_ID) resumeId: Long): LiveData<ResposeResult<ResumeDTO>>
 
 }

@@ -30,9 +30,7 @@ public class WriteContentDialog extends DialogFragment implements View.OnClickLi
     }
 
     private static WriteContentDialog newInstance(Builder builder) {
-        Bundle args = new Bundle();
         WriteContentDialog fragment = new WriteContentDialog(builder);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -50,6 +48,8 @@ public class WriteContentDialog extends DialogFragment implements View.OnClickLi
         if (getDialog().getWindow() == null) return;
         getDialog().getWindow().setLayout(builder.width,builder.height);
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -164,12 +164,12 @@ public class WriteContentDialog extends DialogFragment implements View.OnClickLi
             Fragment dialog = fragmentManager.findFragmentByTag(TAG);
             if (!(dialog instanceof WriteContentDialog)) {
                 dialog = newInstance(this);
+
             }
             if (!activity.isFinishing() && !dialog.isAdded()) {
                 ((WriteContentDialog) dialog).show(fragmentManager, TAG);
             }
             return (WriteContentDialog) dialog;
-
         }
 
     }

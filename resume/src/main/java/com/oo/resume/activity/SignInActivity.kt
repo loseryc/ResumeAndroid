@@ -70,6 +70,7 @@ class SignInActivity : BaseActivity() {
                 loading.show()
                 return@Observer
             }
+
             loading.dismiss()
             if (result.isSuccess) {
                 showToast("登录成功")
